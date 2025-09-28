@@ -1,0 +1,13 @@
+@if (config) {
+
+    <div class="dropdown-wrap">
+        <label for="{{ config.id }}">{{ config.label }}</label>
+        <select #selectElement [id]="config.label" (input)="onInput($event)">
+            @for (opt of config.options; track $index) {
+                <option value="{{ opt.value }}" [selected]="opt.value === value">
+                    {{ opt.label }}
+                </option>
+            }
+        </select>
+    </div>
+}
