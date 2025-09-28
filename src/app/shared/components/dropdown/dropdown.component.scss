@@ -1,0 +1,21 @@
+.dropdown-wrap {
+    --selectColorBackground: #333;
+    --selectColorHover: #888;
+    --selectColorChecked: #a249ad;
+
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    label {
+        margin-bottom: var(--marginSm);
+    }
+
+    select {
+        padding: var(--paddingSm);
+        background-color: var(--selectColorBackground);
+        color: white;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
