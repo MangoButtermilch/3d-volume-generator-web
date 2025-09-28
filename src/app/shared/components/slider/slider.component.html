@@ -1,0 +1,28 @@
+@if (config) {
+
+  <label for="{{ config.id }}">{{ config.label }}</label>
+  <div class="slider-wrap">
+    <button
+      class="slider-reset"
+      type="button"
+      (click)="onResetSlider()"
+      title="Reset slider"
+    >
+      <fa-icon [icon]="resetIcon"></fa-icon>
+    </button>
+    <div class="slider-progress" [style.width]="progressWidth"></div>
+    <input
+      #sliderElement
+      [id]="config.id"
+      [min]="config.minValue"
+      [max]="config.maxValue"
+      [value]="sliderValue"
+      [step]="config.step"
+      [style.width]="width"
+      type="range"
+      (input)="onInput($event)"
+    />
+    <p class="slider-value">{{ getSliderValue().toFixed(2) }}</p>
+  </div>
+
+}

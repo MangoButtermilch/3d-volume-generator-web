@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --fontSizeMd: 14px;
+    --fontSizeLg: 18px;
+    --fontSizeXl: 22px;
+
+    --paddingSm: 5px;
+    --marginSm: 5px;
+}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Arial";
+    font-size: var(--fontSizeMd);
+}
+
+p {
+    margin: 0;
+}
+
+app-slider {
+    padding: var(--paddingSm);
+    display: block;
+    width: fit-content;
+    height: fit-content;
+}
