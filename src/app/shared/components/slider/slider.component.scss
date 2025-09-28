@@ -19,6 +19,7 @@
         background-color: transparent;
         font-size: var(--fontSizeMd);
         color: var(--resetColor);
+        transition: color ease-in-out var(--transitionSpeed);
         &:hover {
             color: var(--resetColorHover);
             cursor: pointer;
@@ -37,6 +38,7 @@
             width: 15px;
             height: 15px;
             border-radius: 100%;
+            transition: background-color ease-in-out var(--transitionSpeed);
             &:hover {
                 background-color: var(--sliderHandleColorHover);
             }
@@ -58,6 +60,7 @@
 
     .slider-value {
         font-size: var(--fontSizeMd);
+        margin-left: var(--marginSm);
     }
 }
 label {

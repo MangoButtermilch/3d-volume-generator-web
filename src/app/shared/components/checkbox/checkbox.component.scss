@@ -32,13 +32,16 @@ label {
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: background-color var(--transitionSpeed) ease-in-out;
         fa-icon {
-            display: none;
+            opacity: 0;
             color: white;
             font-size: var(--fontSizeSm);
+            transition: opacity var(--transitionSpeed) ease-in-out;
         }
         &.checked {
             fa-icon {
+                opacity: 1;
                 display: block;
             }
         }

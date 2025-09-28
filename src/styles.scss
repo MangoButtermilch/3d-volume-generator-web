@@ -6,7 +6,16 @@
 
     --paddingSm: 5px;
     --marginSm: 5px;
+
+    --transitionSpeed: 50ms;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --transitionSpeed: 0ms;
+    }
+}
+
 * {
     box-sizing: border-box;
 }
