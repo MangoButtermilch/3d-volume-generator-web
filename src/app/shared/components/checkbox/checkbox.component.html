@@ -1,0 +1,17 @@
+@if (config) {
+
+    <label class="checkmark-wrap" [class.checked]="checked" for="{{ config.id }}"
+    >{{ config.label }}
+    <input
+        #checkmarkElement
+        [id]="config.id"
+        [checked]="checked"
+        type="checkbox"
+        (input)="onCheck($event)"
+    />
+    <span class="checkmark" [class.checked]="checked">
+        <fa-icon [icon]="checkmarkIcon"></fa-icon>
+    </span>
+    </label>
+
+}

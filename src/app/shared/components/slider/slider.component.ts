@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
-import { ISlider } from '../../interfaces/slider.interface';
+import { ISlider } from './interfaces/slider.interface';
 import { clamp } from '../../utils/math.utils';
 
 @Component({

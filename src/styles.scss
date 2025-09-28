@@ -1,4 +1,5 @@
 :root {
+    --fontSizeSm: 12px;
     --fontSizeMd: 14px;
     --fontSizeLg: 18px;
     --fontSizeXl: 22px;
@@ -16,12 +17,15 @@ body {
     font-family: "Arial";
     font-size: var(--fontSizeMd);
 }
-
+input {
+    margin: 0;
+}
 p {
     margin: 0;
 }
 
-app-slider {
+app-slider,
+app-checkbox {
     padding: var(--paddingSm);
     display: block;
     width: fit-content;
