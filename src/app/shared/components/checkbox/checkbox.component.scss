@@ -1,0 +1,60 @@
+label {
+    font-size: var(--fontSizeMd);
+}
+
+.checkmark-wrap {
+    --checkColorBackground: #333;
+    --checkColorHover: #888;
+    --checkColorChecked: #a249ad;
+
+    --checkSize: 15px;
+
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    position: relative;
+
+    padding-left: calc(var(--checkSize) + var(--paddingSm));
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto;
+        height: var(--checkSize);
+        width: var(--checkSize);
+        background-color: var(--checkColorBackground);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        fa-icon {
+            display: none;
+            color: white;
+            font-size: var(--fontSizeSm);
+        }
+        &.checked {
+            fa-icon {
+                display: block;
+            }
+        }
+    }
+    &:hover input ~ .checkmark {
+        background-color: var(--checkColorHover);
+    }
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+        &:checked ~ .checkmark {
+            background-color: var(--checkColorChecked);
+        }
+    }
+}
