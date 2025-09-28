@@ -34,8 +34,8 @@
         &::-webkit-slider-thumb {
             appearance: none;
             background-color: var(--sliderHandleColor);
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 15px;
             border-radius: 100%;
             &:hover {
                 background-color: var(--sliderHandleColorHover);
