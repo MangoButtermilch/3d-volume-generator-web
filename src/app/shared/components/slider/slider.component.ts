@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
-import { ISlider } from './interfaces/slider.interface';
+import { Slider } from './classes/slider.class';
 import { clamp } from '../../utils/math.utils';
 
 @Component({
@@ -13,7 +13,7 @@ import { clamp } from '../../utils/math.utils';
 export class SliderComponent implements OnInit {
 
   @Output() onValueChange: EventEmitter<number> = new EventEmitter<number>();
-  @Input() config: ISlider;
+  @Input() config: Slider;
   @ViewChild("sliderElement") sliderElement: ElementRef<HTMLInputElement>;
 
   private startValue: number;

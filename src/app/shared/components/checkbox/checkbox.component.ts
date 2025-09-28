@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ICheckbox } from './interfaces/checkbox.interface';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Checkbox } from './classes/checkbox.class';
 
 @Component({
   selector: 'app-checkbox',
@@ -12,7 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class CheckboxComponent implements OnInit {
 
   @Output() onValueChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Input() config: ICheckbox;
+  @Input() config: Checkbox;
   @ViewChild("checkmarkElement") checkmarkElement: ElementRef<HTMLInputElement>;
 
   public checkmarkIcon = faCheck;

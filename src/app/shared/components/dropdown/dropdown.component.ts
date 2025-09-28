@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { IDropdown } from './interfaces/dropdown.interface';
+import { Dropdown } from './classes/dropdown.class';
 
 @Component({
   selector: 'app-dropdown',
@@ -9,7 +9,7 @@ import { IDropdown } from './interfaces/dropdown.interface';
 })
 export class DropdownComponent implements OnInit {
 
-  @Input() config: IDropdown;
+  @Input() config: Dropdown;
   @ViewChild("selectElement") selectElement: ElementRef<HTMLSelectElement>;
 
   public value: string | number;
