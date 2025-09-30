@@ -3,6 +3,7 @@ import { Checkbox } from '../components/checkbox/classes/checkbox.class';
 import { Slider, sliderDefaultWidth } from '../components/slider/classes/slider.class';
 import { Dropdown, DropdownOption } from '../components/dropdown/classes/dropdown.class';
 import { GuidService } from '../../core/services/guid.service';
+import { CustomInput } from '../components/input/classes/customInput.class';
 
 @Injectable({
   providedIn: 'root'
@@ -70,5 +71,24 @@ export class UiFactoryService {
       value,
       options
     );
+  }
+
+  public buildInput(
+    label: string,
+    uniformName: string,
+    value: number | string = "",
+    minAndMax: { min: number, max: number } = { min: 0, max: 99999 },
+    maxLength: number = 256,
+    width: number = sliderDefaultWidth
+  ): CustomInput {
+    return new CustomInput(
+      GuidService.new,
+      uniformName,
+      label,
+      value,
+      minAndMax,
+      maxLength,
+      width
+    )
   }
 }

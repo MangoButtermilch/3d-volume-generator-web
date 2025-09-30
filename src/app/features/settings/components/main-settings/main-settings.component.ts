@@ -1,19 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UiFactoryService } from '../../../../shared/services/ui-factory.service';
 import { Slider } from '../../../../shared/components/slider/classes/slider.class';
 import { Checkbox } from '../../../../shared/components/checkbox/classes/checkbox.class';
 import { SliderComponent } from '../../../../shared/components/slider/slider.component';
 import { CheckboxComponent } from "../../../../shared/components/checkbox/checkbox.component";
+import { CustomInput } from '../../../../shared/components/input/classes/customInput.class';
+import { InputComponent } from "../../../../shared/components/input/input.component";
 
 const factory = UiFactoryService;
 
 @Component({
   selector: 'app-main-settings',
-  imports: [SliderComponent, CheckboxComponent],
+  imports: [SliderComponent, CheckboxComponent, InputComponent],
   templateUrl: './main-settings.component.html',
   styleUrl: './main-settings.component.scss'
 })
 export class MainSettingsComponent {
+
+
   public sliders: Slider[] = [
     factory.instance.buildSlider("Depth (z position offset", "depth"),
     factory.instance.buildSlider("Center radius", "centerRadius"),

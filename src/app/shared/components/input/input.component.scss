@@ -1,0 +1,24 @@
+.input-wrap {
+    display: flex;
+    align-items: center;
+    padding: var(--paddingSm);
+    label {
+        margin-right: var(--marginSm);
+    }
+
+    input {
+        border: none;
+        outline: none;
+        font-size: var(--fontSizeMd);
+        background-color: var(--colorUiBackground);
+        color: var(--textColor);
+        &:hover,
+        &:focus {
+            background-color: var(--colorUi);
+        }
+
+        &.error {
+            outline: 1px solid var(--colorDanger);
+        }
+    }
+}

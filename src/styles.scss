@@ -9,6 +9,8 @@
 
     --transitionSpeed: 100ms;
 
+    --textColor: #cfcccc;
+
     --colorPrimary: #a249ad;
     --colorDanger: #dc3545;
 
@@ -34,7 +36,7 @@ body {
     font-size: var(--fontSizeMd);
     height: 100svh;
     background-color: #111;
-    color: rgb(207, 204, 204);
+    color: var(--textColor);
 }
 input {
     margin: 0;

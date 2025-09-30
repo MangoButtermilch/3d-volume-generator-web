@@ -1,0 +1,17 @@
+@if (config) {
+    <div class="input-wrap">
+    <label for="{{ config.id }}">{{ config.label }}</label>
+    <input
+        [class.error]="inputError"
+        #inputElement
+        type="{{ getType() }}"
+        [id]="config.id"
+        [value]="value"
+        [maxLength]="config.maxLength"
+        (input)="onInput($event)"
+        (blur)="onInput($event)"
+        [min]="config.minAndMax.min"
+        [max]="config.minAndMax.max"
+    />
+    </div>
+}
