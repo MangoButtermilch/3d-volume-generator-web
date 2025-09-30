@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import { Slider } from './classes/slider.class';
@@ -10,7 +10,7 @@ import { clamp } from '../../utils/math.utils';
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss'
 })
-export class SliderComponent implements OnInit {
+export class SliderComponent implements OnInit, AfterViewInit {
 
   @Output() onValueChange: EventEmitter<number> = new EventEmitter<number>();
   @Input() config: Slider;
@@ -28,6 +28,10 @@ export class SliderComponent implements OnInit {
       this.config.maxValue
     );
     this.startValue = this.sliderValue;
+    this.updateProgress();
+  }
+
+  ngAfterViewInit(): void {
     this.updateProgress();
   }
 

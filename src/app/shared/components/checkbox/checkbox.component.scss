@@ -3,9 +3,9 @@ label {
 }
 
 .checkmark-wrap {
-    --checkColorBackground: #333;
-    --checkColorHover: #888;
-    --checkColorChecked: #a249ad;
+    --checkColorBackground: var(--colorUiBackground);
+    --checkColorHover: var(--colorUiHover);
+    --checkColorChecked: var(--colorPrimary);
 
     --checkSize: 15px;
 

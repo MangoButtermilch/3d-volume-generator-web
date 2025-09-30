@@ -1,0 +1,21 @@
+.settings {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    .main-settings {
+        width: 20%;
+        background-color: #444;
+        height: 100%;
+    }
+    .noise-settings {
+        width: 20%;
+        background-color: #444;
+        height: 100%;
+    }
+
+    section {
+        padding: var(--paddingSm);
+        margin: var(--marginSm);
+        border: 2px dashed var(--colorUi);
+    }
+}

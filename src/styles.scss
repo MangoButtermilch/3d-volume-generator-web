@@ -7,7 +7,14 @@
     --paddingSm: 5px;
     --marginSm: 5px;
 
-    --transitionSpeed: 50ms;
+    --transitionSpeed: 100ms;
+
+    --colorPrimary: #a249ad;
+    --colorDanger: #dc3545;
+
+    --colorUi: #666;
+    --colorUiBackground: #333;
+    --colorUiHover: #888;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -23,8 +30,11 @@
 body {
     padding: 0;
     margin: 0;
-    font-family: "Arial";
+    font-family: "Consolas";
     font-size: var(--fontSizeMd);
+    height: 100svh;
+    background-color: #111;
+    color: rgb(207, 204, 204);
 }
 input {
     margin: 0;
@@ -40,4 +50,16 @@ app-dropdown {
     display: block;
     width: fit-content;
     height: fit-content;
+}
+
+app-settings-main,
+app-settings-texture,
+app-noise-layer-list,
+app-canvas,
+app-main {
+    display: block;
+}
+
+app-main {
+    height: 100%;
 }
