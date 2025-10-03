@@ -7,11 +7,10 @@ import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UiFactoryService } from '../../../../shared/services/ui-factory.service';
 import { IconPosition } from '../../../../shared/components/button/enum/button.enum';
-import { ButtonComponent } from "../../../../shared/components/button/button.component";
 
 @Component({
   selector: 'app-noise-settings',
-  imports: [NoiseLayerComponent, FontAwesomeModule, ButtonComponent],
+  imports: [NoiseLayerComponent, FontAwesomeModule],
   templateUrl: './noise-settings.component.html',
   styleUrl: './noise-settings.component.scss'
 })

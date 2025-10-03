@@ -2,4 +2,9 @@
     padding: var(--paddingSm);
     overflow-y: auto;
     max-height: 100svh;
+    section {
+        padding: var(--paddingSm);
+        margin: var(--marginSm);
+        border: 2px dashed var(--colorUi);
+    }
 }
