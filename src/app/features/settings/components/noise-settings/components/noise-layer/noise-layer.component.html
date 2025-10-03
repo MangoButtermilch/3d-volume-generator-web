@@ -1,0 +1,18 @@
+<div class="noise-layer">
+  <h3>{{ config.title }}</h3>
+
+  <div class="checkbox-wrap">
+    <app-checkbox [config]="enabledCheckbox"></app-checkbox>
+    <app-checkbox [config]="invertCheckbox"></app-checkbox>
+  </div>
+
+  <app-slider [config]="scaleSlider"></app-slider>
+
+  @if (config.noiseType === 'voronoi') {
+    <app-slider [config]="angleOffsetSlider"></app-slider>
+  }
+  <app-slider [config]="powerSlider"></app-slider>
+  <app-slider [config]="distortionSlider"></app-slider>
+
+  <app-dropdown [config]="noiseTypeDropdown"></app-dropdown>
+</div>

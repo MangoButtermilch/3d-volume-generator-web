@@ -4,6 +4,9 @@ import { Slider, sliderDefaultWidth } from '../components/slider/classes/slider.
 import { Dropdown, DropdownOption } from '../components/dropdown/classes/dropdown.class';
 import { GuidService } from '../../core/services/guid.service';
 import { CustomInput } from '../components/input/classes/customInput.class';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
+import { IconPosition } from '../components/button/enum/button.enum';
+import { Button } from '../components/button/classes/button.class';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +26,21 @@ export class UiFactoryService {
       UiFactoryService._instance = new UiFactoryService();
     }
     return UiFactoryService._instance;
+  }
+
+  public buildButton(
+    label: string,
+    cssClass?: string,
+    icon?: IconDefinition,
+    iconPosition: IconPosition = IconPosition.LEFT
+  ): Button {
+    return new Button(
+      GuidService.new,
+      label,
+      cssClass,
+      icon,
+      iconPosition
+    )
   }
 
   public buildCheckbox(

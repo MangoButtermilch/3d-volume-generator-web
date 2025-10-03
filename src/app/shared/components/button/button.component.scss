@@ -1,0 +1,26 @@
+button {
+    border: none;
+    outline: none;
+    padding: var(--paddingSm);
+    text-align: center;
+    background-color: var(--colorUiBackground);
+    color: var(--textColor);
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    .label {
+        margin: 0 var(--marginSm);
+    }
+
+    &:hover {
+        background-color: var(--colorUiHover);
+        cursor: pointer;
+    }
+
+    &.btn-success {
+        background-color: var(--colorSuccess);
+        &:hover {
+            background-color: var(--colorSuccessHover);
+        }
+    }
+}

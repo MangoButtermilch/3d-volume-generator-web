@@ -12,11 +12,31 @@
     --textColor: #cfcccc;
 
     --colorPrimary: #a249ad;
+    --colorPrimaryHover: #b96ac4;
     --colorDanger: #dc3545;
+
+    --colorSuccess: #28a745;
+    --colorSuccessHover: #42b95e;
 
     --colorUi: #666;
     --colorUiBackground: #333;
     --colorUiHover: #888;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--colorUiBackground);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--colorPrimary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--colorPrimaryHover);
+    cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,13 @@
+<button class="{{config.cssClass}}">
+
+    @if (config.icon) {
+        @if(config.iconPosition === 'left') {
+            <fa-icon [icon]="config.icon"></fa-icon>
+            <span class="label">{{config.label}}</span>
+        } @else if (config.iconPosition === 'right') {
+            <span class="label">{{config.label}}</span>
+            <fa-icon [icon]="config.icon"></fa-icon>
+        }
+    }
+
+</button>
