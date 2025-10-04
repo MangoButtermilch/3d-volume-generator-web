@@ -1,21 +1,28 @@
 .settings {
     height: 100%;
     display: flex;
-    justify-content: space-between;
-    .main-settings {
-        width: 20%;
-        background-color: #444;
-        height: 100%;
-    }
+    justify-content: start;
+    flex-wrap: nowrap;
+
+    .main-settings,
     .noise-settings {
-        width: 20%;
-        background-color: #444;
+        width: fit-content;
+        min-width: 18%;
+        background-color: #555;
         height: 100%;
     }
 
+    .noise-settings {
+        background-color: #444;
+    }
     section {
         padding: var(--paddingSm);
         margin: var(--marginSm);
-        border: 2px dashed var(--colorUi);
+        border: 2px dashed var(--colorUiBackground);
+    }
+    app-canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 }

@@ -81,7 +81,7 @@ export const defaultNoiseLayerConfig: NoiseLayer[] = [
         noiseType: NoiseType.SIMPLEX,
         scale: 2.12,
         angleOffset: 0.0,
-        power: 0.19,
+        power: 0.55,
         distortion: 0.,
         enabled: true,
         inverted: false,

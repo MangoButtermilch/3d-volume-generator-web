@@ -8,7 +8,7 @@ import { InputComponent } from "../../../../shared/components/input/input.compon
 import { getMaxTextureSize } from '../../../../shared/utils/webgl.utils';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { ShaderConfig } from '../../../../shared/interfaces/shader-configs.interfaces';
+import { IVector2, ShaderConfig } from '../../../../shared/interfaces/shader-configs.interfaces';
 import { CanvasService } from '../../../../shared/services/canvas.service';
 
 const factory = UiFactoryService;
@@ -39,6 +39,8 @@ export class TextureSettingsComponent implements OnInit {
   private shaderUvConfig$: Observable<ShaderConfig> = this.canvasService.getShaderConfig()
     .pipe(takeUntilDestroyed());
 
+  private outputResolution: IVector2 = this.canvasService.getOutputResolution();
+
   constructor(
     private canvasService: CanvasService
   ) { }
@@ -46,6 +48,24 @@ export class TextureSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.maxTextureSize = getMaxTextureSize();
     this.handleUvConfigChanges();
+  }
+
+  public updateOutputResolutionX(value: string | number): void {
+    if (typeof value == "string") {
+      value = parseInt(value);
+    }
+    this.canvasService.updateOutputResolution(
+      { x: value, y: this.outputResolution.y }
+    );
+  }
+
+  public updateOutputResolutionY(value: string | number): void {
+    if (typeof value == "string") {
+      value = parseInt(value);
+    }
+    this.canvasService.updateOutputResolution(
+      { x: this.outputResolution.x, y: value }
+    );
   }
 
   private handleUvConfigChanges(): void {

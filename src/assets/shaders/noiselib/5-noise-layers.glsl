@@ -13,7 +13,7 @@ void evaluateNoiselayerData(
 }
 
 void noiseLayer(
-    vec4 noiseLayerData,//x = scale, y = power, z = angle offset, w = 
+    vec4 noiseLayerData,//x = scale, y = power, z = angle offset, w = noise type
     vec3 noiseSamplePosition,
     float positionDistortion,
     float depth,

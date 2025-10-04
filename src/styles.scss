@@ -22,6 +22,7 @@
     --colorUiBackground: #333;
     --colorUiHover: #888;
 }
+
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -47,13 +48,6 @@
 
 * {
     box-sizing: border-box;
-}
-
-app-canvas {
-    display: block;
-    width: 60%;
-    height: 100%;
-    margin: auto;
 }
 body {
     padding: 0;

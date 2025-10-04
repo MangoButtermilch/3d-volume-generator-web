@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import * as THREE from 'three';
 import { defaultConfig, IVector2, NoiseLayer, NoiseType, ShaderConfig } from '../interfaces/shader-configs.interfaces';
 import { ShaderLoaderService } from './shader-loader.service';
-import { NoiseSettingsComponent } from '../../features/settings/components/noise-settings/noise-settings.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,47 +21,42 @@ export class CanvasService {
   private config$ = new BehaviorSubject<ShaderConfig>(defaultConfig);
   private config: ShaderConfig = defaultConfig;
 
+  private outputResolution$ = new BehaviorSubject<IVector2>({ x: 4096, y: 4096 });
+
   constructor(private shaderLoader: ShaderLoaderService) {
     window.addEventListener("resize", this.onResize)
-  }
-
-  private onResize = (): void => {
-    const bounds = this.canvas.getBoundingClientRect();
-    const width = bounds.width;
-    const height = bounds.height;
-    const res = { x: width, y: height };
-
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-
-    this.renderer.setSize(width, height);
   }
 
   public async setup(element: HTMLCanvasElement): Promise<void> {
     this.canvas = element;
     const bounds = this.canvas.getBoundingClientRect();
-    const width = bounds.width;
-    const height = bounds.height;
+    const size = Math.min(bounds.width, bounds.height);
 
-    this.resolution = { x: width, y: height };
+    this.resolution = { x: size, y: size };
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color("#362136");
 
-    this.camera = new THREE.PerspectiveCamera(50, this.resolution.x / this.resolution.y, 0.1, 100);
+    this.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);  // aspect=1
     this.camera.position.set(0, 0, 5);
     this.camera.updateProjectionMatrix();
-
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
       alpha: false
     });
-    this.renderer.setSize(width, height);
+    this.renderer.setSize(size, size);
 
+    await this.loadShaderAndMaterialConfiguration();
     const geometry = new THREE.PlaneGeometry(2, 2);
+    const quad = new THREE.Mesh(geometry, this.material);
 
+    this.scene.add(quad);
+    this.render();
+  }
+
+  private async loadShaderAndMaterialConfiguration(): Promise<void> {
 
     const noiseLibFiles = await this.shaderLoader.loadShaders(
       {
@@ -71,17 +65,15 @@ export class CanvasService {
         simplexNoise3d: "/assets/shaders/noiselib/2-simplex-noise.glsl",
         voronoi3d: "/assets/shaders/noiselib/3-voronoi-noise.glsl",
         nebula3d: "/assets/shaders/noiselib/4-nebula-noise.glsl",
+        noiseLayers: "/assets/shaders/noiselib/5-noise-layers.glsl",
       }
     );
-
     const shaderSetupFiles = await this.shaderLoader.loadShaders(
       {
         uniforms: "/assets/shaders/1-uniforms.glsl",
         uvUtils: "/assets/shaders/2-uv-utils.glsl",
-        noiseUtils: "/assets/shaders/3-noise-utils.glsl"
       }
     );
-
 
     const shaderSetupFragment =
       noiseLibFiles['noiseUtils']
@@ -91,7 +83,7 @@ export class CanvasService {
         .concat(noiseLibFiles['nebula3d'])
         .concat(shaderSetupFiles['uniforms'])
         .concat(shaderSetupFiles['uvUtils'])
-        .concat(shaderSetupFiles['noiseUtils'])
+        .concat(noiseLibFiles['noiseLayers'])
 
     const [fragment, vertex] = await this.shaderLoader.loadShadersDefault(
       "/assets/shaders/3-fragment.glsl",
@@ -101,23 +93,32 @@ export class CanvasService {
       vertexShader: vertex,
       fragmentShader: shaderSetupFragment + fragment,
     });
-    this.setupShaderUvUniforms(this.config);
-    const quad = new THREE.Mesh(geometry, this.material);
-    this.scene.add(quad);
+    this.setupShaderUniforms(this.config);
+  }
 
-    this.animate();
+  private onResize = (): void => {
+    const bounds = this.canvas.getBoundingClientRect();
+    const size = Math.min(bounds.width, bounds.height);
+
+    this.resolution = { x: size, y: size };
+
+    this.camera.aspect = 1;
+    this.camera.updateProjectionMatrix();
+
+    this.renderer.setSize(size, size);
   }
 
   public updateShaderUniform(uniformName: string, value: any): void {
     this.config[uniformName] = value;
     if (this.material.uniforms[uniformName]) {
       this.material.uniforms[uniformName].value = value;
+      this.render();
     } else {
       console.warn("Unknown uniform: " + uniformName);
     }
   }
 
-  private setupShaderUvUniforms(config: ShaderConfig): void {
+  private setupShaderUniforms(config: ShaderConfig): void {
     this.material.uniforms = {
       time: { value: 0.0 },
       resolution: { value: new THREE.Vector2(this.resolution.x, this.resolution.y) },
@@ -259,6 +260,7 @@ export class CanvasService {
     } else {
       this.material.uniforms[uniformName].value = vector;
     }
+    this.render();
   }
 
   private mapIndexToVec4Component(index: number): string {
@@ -281,8 +283,7 @@ export class CanvasService {
     }
   }
 
-  private animate = (): void => {
-    this.animationFrameId = requestAnimationFrame(this.animate);
+  private render(): void {
     this.renderer.render(this.scene, this.camera);
   };
 
@@ -293,5 +294,13 @@ export class CanvasService {
 
   public getShaderConfig(): Observable<ShaderConfig> {
     return this.config$.asObservable();
+  }
+
+  public getOutputResolution(): IVector2 {
+    return this.outputResolution$.value;
+  }
+
+  public updateOutputResolution(res: IVector2): void {
+    return this.outputResolution$.next(res);
   }
 }
