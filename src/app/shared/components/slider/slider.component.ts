@@ -12,7 +12,7 @@ import { clamp } from '../../utils/math.utils';
 })
 export class SliderComponent implements OnInit, AfterViewInit {
 
-  @Output() onValueChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onValueChange: EventEmitter<Slider> = new EventEmitter<Slider>();
   @Input() config: Slider;
   @ViewChild("sliderElement") sliderElement: ElementRef<HTMLInputElement>;
 
@@ -52,7 +52,9 @@ export class SliderComponent implements OnInit, AfterViewInit {
       this.config.maxValue
     );
     this.updateProgress();
-    this.onValueChange.emit(this.sliderValue);
+
+    this.config.value = this.sliderValue;
+    this.onValueChange.emit(this.config);
   }
 
   public onResetSlider(): void {

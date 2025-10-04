@@ -49,6 +49,12 @@
     box-sizing: border-box;
 }
 
+app-canvas {
+    display: block;
+    width: 60%;
+    height: 100%;
+    margin: auto;
+}
 body {
     padding: 0;
     margin: 0;
@@ -57,6 +63,7 @@ body {
     height: 100svh;
     background-color: #111;
     color: var(--textColor);
+    overflow: clip;
 }
 input {
     margin: 0;
