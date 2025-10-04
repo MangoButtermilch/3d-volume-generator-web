@@ -13,20 +13,7 @@ import { Button } from '../components/button/classes/button.class';
 })
 export class UiFactoryService {
 
-  private static _instance: UiFactoryService = null;
-
-  constructor() {
-    if (UiFactoryService._instance === null) {
-      UiFactoryService._instance = this;
-    }
-  }
-
-  public static get instance(): UiFactoryService {
-    if (UiFactoryService._instance === null) {
-      UiFactoryService._instance = new UiFactoryService();
-    }
-    return UiFactoryService._instance;
-  }
+  constructor() { }
 
   public buildButton(
     label: string,

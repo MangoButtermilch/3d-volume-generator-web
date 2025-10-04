@@ -17,24 +17,18 @@ export class SliderComponent implements OnInit {
   @ViewChild("sliderElement") sliderElement: ElementRef<HTMLInputElement>;
 
   private startValue: number;
-  public sliderValue: number;
   public resetIcon = faXmarkCircle;
   public progressWidth: string = "";
 
   ngOnInit(): void {
-    this.sliderValue = clamp(
-      this.config.value,
-      this.config.minValue,
-      this.config.maxValue
-    );
-    this.startValue = this.sliderValue;
+    this.startValue = this.config.value;
     this.updateProgress();
   }
 
   private updateProgress() {
     const min = this.config.minValue;
     const max = this.config.maxValue;
-    const val = this.sliderValue;
+    const val = this.config.value;
 
     const progressPercent = ((val - min) / (max - min));
     const handleOffset = 12;
@@ -42,30 +36,28 @@ export class SliderComponent implements OnInit {
   }
 
   public onInput(e: Event): void {
-    this.sliderValue = clamp(
+    this.config.value = clamp(
       parseFloat(this.sliderElement.nativeElement.value || "0"),
       this.config.minValue,
       this.config.maxValue
     );
     this.updateProgress();
 
-    this.config.value = this.sliderValue;
     this.onValueChange.emit(this.config);
   }
 
   public onResetSlider(): void {
-    this.sliderValue = this.startValue;
-    this.config.value = this.sliderValue;
+    this.config.value = this.startValue;
     //fixes slider value not changing in html element
     if (this.sliderElement?.nativeElement) {
-      this.sliderElement.nativeElement.value = this.sliderValue.toString();
+      this.sliderElement.nativeElement.value = this.config.value.toString();
     }
     this.onValueChange.emit(this.config);
     this.updateProgress();
   }
 
   public getSliderValue(): number {
-    return this.sliderValue;
+    return this.config.value;
   }
 
   public get width(): string {

@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
 import { IVector2, ShaderConfig } from '../../../../shared/interfaces/shader-configs.interfaces';
 import { CanvasService } from '../../../../shared/services/canvas.service';
 
-const factory = UiFactoryService;
 @Component({
   selector: 'app-texture-settings',
   imports: [SliderComponent, InputComponent],
@@ -22,19 +21,10 @@ export class TextureSettingsComponent implements OnInit {
 
   public maxTextureSize: number = 0;
 
-  public sliders: Slider[] = [
-    factory.instance.buildSlider("Twirl", "cellTwirlStrength", 0, -10, 10),
-    factory.instance.buildSlider("Radial shear", "cellRadialShearStrength", 0, -10, 10),
-    factory.instance.buildSlider("Spherize", "cellSpherizeStrength", 0, -10, 10),
-  ];
+  public sliders: Slider[];
 
-  public inputTextureSizeX: CustomInput =
-    factory.instance.buildInput("x:", "textureSizeX", 4096,
-      { min: 32, max: getMaxTextureSize() });
-
-  public inputTextureSizeY: CustomInput =
-    factory.instance.buildInput("y:", "textureSizeY", 4096,
-      { min: 32, max: getMaxTextureSize() });
+  public inputTextureSizeX: CustomInput;
+  public inputTextureSizeY: CustomInput;
 
   private shaderUvConfig$: Observable<ShaderConfig> = this.canvasService.getShaderConfig()
     .pipe(takeUntilDestroyed());
@@ -42,10 +32,24 @@ export class TextureSettingsComponent implements OnInit {
   private outputResolution: IVector2 = this.canvasService.getOutputResolution();
 
   constructor(
+    private uiFactory: UiFactoryService,
     private canvasService: CanvasService
   ) { }
 
   ngOnInit(): void {
+
+    this.inputTextureSizeX = this.uiFactory.buildInput("x:", "textureSizeX", 4096,
+      { min: 32, max: getMaxTextureSize() });
+
+    this.inputTextureSizeY = this.uiFactory.buildInput("y:", "textureSizeY", 4096,
+      { min: 32, max: getMaxTextureSize() });
+
+    this.sliders = [
+      this.uiFactory.buildSlider("Twirl", "cellTwirlStrength", 0, -10, 10),
+      this.uiFactory.buildSlider("Radial shear", "cellRadialShearStrength", 0, -10, 10),
+      this.uiFactory.buildSlider("Spherize", "cellSpherizeStrength", 0, -10, 10),
+    ];
+
     this.maxTextureSize = getMaxTextureSize();
     this.handleUvConfigChanges();
   }
@@ -86,6 +90,7 @@ export class TextureSettingsComponent implements OnInit {
   }
 
   private getSliderByUniformName(name: string): Slider | null {
+    if (!this.sliders) return null;
     return this.sliders.find((other) => other.uniformName === name);
   }
 

@@ -7,10 +7,9 @@ import { firstValueFrom, Observable } from 'rxjs';
 })
 export class ShaderLoaderService {
 
-
   constructor(private http: HttpClient) { }
 
-  public loadShader(url: string): Observable<string> {
+  private loadShader(url: string): Observable<string> {
     return this.http.get(url, { responseType: 'text' });
   }
 

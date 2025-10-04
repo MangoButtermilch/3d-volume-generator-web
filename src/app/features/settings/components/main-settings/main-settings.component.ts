@@ -9,8 +9,6 @@ import { Observable } from 'rxjs';
 import { ShaderConfig } from '../../../../shared/interfaces/shader-configs.interfaces';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-const factory = UiFactoryService;
-
 @Component({
   selector: 'app-main-settings',
   imports: [SliderComponent, CheckboxComponent],
@@ -19,30 +17,34 @@ const factory = UiFactoryService;
 })
 export class MainSettingsComponent implements OnInit {
 
-
-  public sliders: Slider[] = [
-    factory.instance.buildSlider("Depth (z position offset", "depth", 0, -100, 100),
-    factory.instance.buildSlider("Center radius", "centerRadius"),
-    factory.instance.buildSlider("Center strength", "centerStrength"),
-    factory.instance.buildSlider("Border strength", "borderStrength"),
-    factory.instance.buildSlider("Total brightness", "totalBrightness"),
-    factory.instance.buildSlider("Amount of cells", "numCells", 1, 1, 32, 1),
-  ];
-
-  public checkboxes: Checkbox[] = [
-    factory.instance.buildCheckbox("Hide first cell", "hideFirstCell"),
-    factory.instance.buildCheckbox("Hide last cell", "hideLastCell"),
-    factory.instance.buildCheckbox("Grow and shrink cells", "growAndShrinkCells")
-  ];
+  public sliders: Slider[];
+  public checkboxes: Checkbox[];
 
   private shaderUvConfig$: Observable<ShaderConfig> = this.canvasService.getShaderConfig()
     .pipe(takeUntilDestroyed());
 
   constructor(
-    private canvasService: CanvasService
+    private canvasService: CanvasService,
+    private uiFactory: UiFactoryService
   ) { }
 
   ngOnInit(): void {
+
+    this.sliders = [
+      this.uiFactory.buildSlider("Depth (z position offset", "depth", 0, -100, 100),
+      this.uiFactory.buildSlider("Center radius", "centerRadius"),
+      this.uiFactory.buildSlider("Center strength", "centerStrength"),
+      this.uiFactory.buildSlider("Border strength", "borderStrength"),
+      this.uiFactory.buildSlider("Total brightness", "totalBrightness"),
+      this.uiFactory.buildSlider("Amount of cells", "numCells", 1, 1, 32, 1),
+    ];
+
+    this.checkboxes = [
+      this.uiFactory.buildCheckbox("Hide first cell", "hideFirstCell"),
+      this.uiFactory.buildCheckbox("Hide last cell", "hideLastCell"),
+      this.uiFactory.buildCheckbox("Grow and shrink cells", "growAndShrinkCells")
+    ];
+
     this.handleUvConfigChanges();
   }
 

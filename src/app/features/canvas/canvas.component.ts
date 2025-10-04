@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { CanvasService } from '../../shared/services/canvas.service';
 
 @Component({
@@ -16,6 +16,5 @@ export class CanvasComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.canvasService.setup(this.canvasElement.nativeElement);
   }
-
 
 }
