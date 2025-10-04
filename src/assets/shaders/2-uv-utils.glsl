@@ -1,22 +1,30 @@
-varying vec2 vUv; 
+void twirlUv(vec2 uv, vec2 center, float strength, vec2 offset, out vec2 outUv)
+{
+    vec2 delta = uv - center;
+    float angle = strength * length(delta);
+    float x = cos(angle) * delta.x - sin(angle) * delta.y;
+    float y = sin(angle) * delta.x + cos(angle) * delta.y;
+    outUv = vec2(x + center.x + offset.x, y + center.y + offset.y);
+}
 
-uniform float numCells;
-uniform float tilingPerCell;
-uniform vec3 positionOffset;
+void spherizeUv(vec2 uv, vec2 center, vec2 strength, vec2 offset, out vec2 outUv)
+{
+    vec2 delta = uv - center;
+    float delta2 = dot(delta.xy, delta.xy);
+    float delta4 = delta2 * delta2;
+    vec2 delta_offset = delta4 * strength;
+    outUv = uv + delta * delta_offset + offset;
+}
 
-uniform bool doGrow;
-uniform float borderStrength;
-uniform float centerStrength;
-uniform float centerRadius;
+void shearUv(vec2 uv, vec2 center, vec2 strength, vec2 offset, out vec2 outUv)
+{
+    vec2 delta = uv - center;
+    float delta2 = dot(delta.xy, delta.xy);
+    vec2 delta_offset = delta2 * strength;
+    outUv = uv + vec2(delta.y, -delta.x) * delta_offset + offset;
+}
 
-uniform bool hideFirstCell;
-uniform bool hideLastCell;
-
-void main() {
-    vec2 uv = vUv;
-
-    vec3 outputPosition;
-    float outputMask;
+void createPseudoVolumePosition(vec2 uv, out float mask, out vec3 position) {
 
     //Values need to increase from left to right and top to bottom since each tile will later be stacked in the 3D texture.
     //Therefore y component needs to be remapped.
@@ -33,18 +41,18 @@ void main() {
     vec2 uvPerCell = cells * tilingPerCell;
     vec3 noisePosition = vec3(uvPerCell.x, uvPerCell.y, zFrameIndex) + positionOffset;
 
-    outputPosition = noisePosition;
+    position = noisePosition;
 
     bool isFirstCell = coords.x <= 1. && coords.y <= 1.;
     bool isLastCell = coords.x >= numCells - 1. && coords.y >= numCells - 1.;
 
     //To create a padding for stacked noice slices since engines like Unity create weird artifacts on these. 
     if (hideFirstCell && isFirstCell)  {
-        outputMask = 0.;
+        mask = 0.;
         return;
     }
     if (hideLastCell && isLastCell)  {
-        outputMask = 0.;
+        mask = 0.;
         return;
     }
 
@@ -59,13 +67,12 @@ void main() {
     growFactor = 1. - abs(growFactor); 
     growFactor *= growFactorMult;
 
-    if (!doGrow) growFactor = 0.;
+    if (!growAndShrinkCells) growFactor = 0.;
 
     vec2 cellCenter = (cells - .5) * 2.;
     float centerMask = (1. - length(cellCenter) * centerRadius * 2.  + growFactor) / (1. - centerStrength * 2.);
 
     float completeMask = clamp(borderMask * centerMask, 0., 1.);
-    outputMask = completeMask;
+    mask = completeMask;
 
-    gl_FragColor = vec4(outputMask, 0, 0, 1.0);
 }

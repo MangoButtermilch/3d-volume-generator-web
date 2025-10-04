@@ -10,7 +10,7 @@ import { clamp } from '../../utils/math.utils';
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.scss'
 })
-export class SliderComponent implements OnInit, AfterViewInit {
+export class SliderComponent implements OnInit {
 
   @Output() onValueChange: EventEmitter<Slider> = new EventEmitter<Slider>();
   @Input() config: Slider;
@@ -28,10 +28,6 @@ export class SliderComponent implements OnInit, AfterViewInit {
       this.config.maxValue
     );
     this.startValue = this.sliderValue;
-    this.updateProgress();
-  }
-
-  ngAfterViewInit(): void {
     this.updateProgress();
   }
 

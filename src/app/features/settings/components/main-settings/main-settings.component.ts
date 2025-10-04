@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CheckboxComponent } from "../../../../shared/components/checkbox/checkbox.component";
 import { Checkbox } from '../../../../shared/components/checkbox/classes/checkbox.class';
 import { Slider } from '../../../../shared/components/slider/classes/slider.class';
 import { SliderComponent } from '../../../../shared/components/slider/slider.component';
 import { UiFactoryService } from '../../../../shared/services/ui-factory.service';
 import { CanvasService } from '../../../services/canvas.service';
+import { Observable } from 'rxjs';
+import { ShaderUvConfig } from '../../../../shared/interfaces/shader-configs.interfaces';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const factory = UiFactoryService;
 
@@ -14,16 +17,16 @@ const factory = UiFactoryService;
   templateUrl: './main-settings.component.html',
   styleUrl: './main-settings.component.scss'
 })
-export class MainSettingsComponent {
+export class MainSettingsComponent implements OnInit {
 
 
   public sliders: Slider[] = [
-    factory.instance.buildSlider("Depth (z position offset", "depth"),
+    factory.instance.buildSlider("Depth (z position offset", "depth", 0, -100, 100),
     factory.instance.buildSlider("Center radius", "centerRadius"),
     factory.instance.buildSlider("Center strength", "centerStrength"),
     factory.instance.buildSlider("Border strength", "borderStrength"),
     factory.instance.buildSlider("Total brightness", "totalBrightness"),
-    factory.instance.buildSlider("Amount of cells", "amountOfCells"),
+    factory.instance.buildSlider("Amount of cells", "numCells", 1, 1, 32, 1),
   ];
 
   public checkboxes: Checkbox[] = [
@@ -32,12 +35,46 @@ export class MainSettingsComponent {
     factory.instance.buildCheckbox("Grow and shrink cells", "growAndShrinkCells")
   ];
 
+  private shaderUvConfig$: Observable<ShaderUvConfig> = this.canvasService.getShaderUvConfig()
+    .pipe(takeUntilDestroyed());
+
   constructor(
     private canvasService: CanvasService
   ) { }
+
+  ngOnInit(): void {
+    this.handleUvConfigChanges();
+  }
+
+  private handleUvConfigChanges(): void {
+    this.shaderUvConfig$.subscribe((config: ShaderUvConfig) => {
+      for (const [name, value] of Object.entries(config)) {
+
+        const slider = this.getSliderByUniformName(name);
+        const checkbox = this.getCheckboxByUniformName(name);
+
+        if (slider) {
+          slider.value = value;
+        } else if (checkbox) {
+          checkbox.checked = value;
+        }
+      }
+    });
+  }
 
   public onSliderChange(slider: Slider): void {
     this.canvasService.updateShaderUvUniform(slider.uniformName, slider.value);
   }
 
+  public onCheckboxChange(checkbox: Checkbox): void {
+    this.canvasService.updateShaderUvUniform(checkbox.uniformName, checkbox.checked);
+  }
+
+  private getSliderByUniformName(name: string): Slider | null {
+    return this.sliders.find((other) => other.uniformName === name);
+  }
+
+  private getCheckboxByUniformName(name: string): Checkbox | null {
+    return this.checkboxes.find((other) => other.uniformName === name);
+  }
 }

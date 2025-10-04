@@ -31,8 +31,7 @@
         background-color: var(--sliderColorBackground);
         height: 5px;
         border-radius: 10px;
-
-        &::-webkit-slider-thumb {
+       &::-webkit-slider-thumb {
             appearance: none;
             background-color: var(--sliderHandleColor);
             width: 15px;
@@ -41,7 +40,7 @@
             transition: background-color ease-in-out var(--transitionSpeed);
             &:hover {
                 background-color: var(--sliderHandleColorHover);
-            }
+            } 
         }
         &:hover {
             cursor: pointer;

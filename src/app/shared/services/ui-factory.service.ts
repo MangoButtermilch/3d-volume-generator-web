@@ -61,7 +61,7 @@ export class UiFactoryService {
     value: number = 0,
     minValue: number = 0,
     maxValue: number = 1,
-    step: number = 0.1,
+    step: number = 0.01,
     width: number = sliderDefaultWidth
   ): Slider {
     return new Slider(

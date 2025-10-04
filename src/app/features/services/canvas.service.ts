@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { ShaderLoaderService } from '../../shared/services/shader-loader.service';
 import { defaultUvConfig, IVector2, ShaderUvConfig } from '../../shared/interfaces/shader-configs.interfaces';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class CanvasService {
   private material: THREE.ShaderMaterial;
   private resolution: IVector2;
 
+  private uvConfig$ = new BehaviorSubject<ShaderUvConfig>(defaultUvConfig);
   private uvConfig: ShaderUvConfig = defaultUvConfig;
 
   constructor(private shaderLoader: ShaderLoaderService) {
@@ -61,13 +63,24 @@ export class CanvasService {
 
     const geometry = new THREE.PlaneGeometry(2, 2);
 
-    const [vertex, fragment] = await this.shaderLoader.loadShaders(
-      "/assets/shaders/vertex.glsl",
-      "/assets/shaders/fragment.glsl"
+    const [uniforms, uvUtils] = await this.shaderLoader.loadShaders(
+      "/assets/shaders/1-uniforms.glsl",
+      "/assets/shaders/2-uv-utils.glsl"
+    );
+
+    const shaderSetupFragment = uniforms
+      .concat("\n")
+      .concat(uvUtils)
+      .concat("\n");
+
+
+    const [fragment, vertex] = await this.shaderLoader.loadShaders(
+      "/assets/shaders/3-fragment.glsl",
+      "/assets/shaders/4-vertex.glsl",
     );
     this.material = new THREE.ShaderMaterial({
       vertexShader: vertex,
-      fragmentShader: fragment,
+      fragmentShader: shaderSetupFragment + fragment,
     });
     this.setupShaderUvUniforms(this.uvConfig);
     const quad = new THREE.Mesh(geometry, this.material);
@@ -98,7 +111,7 @@ export class CanvasService {
           uvConfig.positionOffset.z
         )
       },
-      doGrow: { value: uvConfig.doGrow },
+      growAndShrinkCells: { value: uvConfig.growAndShrinkCells },
       borderStrength: { value: uvConfig.borderStrength },
       centerStrength: { value: uvConfig.centerStrength },
       centerRadius: { value: uvConfig.centerRadius },
@@ -116,5 +129,9 @@ export class CanvasService {
   public cleanup(): void {
     cancelAnimationFrame(this.animationFrameId);
     if (this.renderer) this.renderer.dispose();
+  }
+
+  public getShaderUvConfig(): Observable<ShaderUvConfig> {
+    return this.uvConfig$.asObservable();
   }
 }

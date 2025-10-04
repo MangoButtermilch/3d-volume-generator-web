@@ -11,7 +11,7 @@ import { Checkbox } from './classes/checkbox.class';
 })
 export class CheckboxComponent implements OnInit {
 
-  @Output() onValueChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onValueChange: EventEmitter<Checkbox> = new EventEmitter<Checkbox>();
   @Input() config: Checkbox;
   @ViewChild("checkmarkElement") checkmarkElement: ElementRef<HTMLInputElement>;
 
@@ -25,6 +25,7 @@ export class CheckboxComponent implements OnInit {
   public onCheck(event: Event): void {
     const checked = this.checkmarkElement.nativeElement.checked;
     this.checked = checked;
-    this.onValueChange.emit(checked);
+    this.config.checked = checked;
+    this.onValueChange.emit(this.config);
   }
 }
