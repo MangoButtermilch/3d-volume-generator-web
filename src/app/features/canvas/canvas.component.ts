@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { CanvasService } from '../services/canvas.service';
+import { CanvasService } from '../../shared/services/canvas.service';
 
 @Component({
   selector: 'app-canvas',

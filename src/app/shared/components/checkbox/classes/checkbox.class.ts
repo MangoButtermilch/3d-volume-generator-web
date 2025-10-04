@@ -3,6 +3,6 @@ export class Checkbox {
         public id: string,
         public uniformName: string,
         public label: string,
-        public checked: boolean) {
+        public value: boolean) {
     }
 }

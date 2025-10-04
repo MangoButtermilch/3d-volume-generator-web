@@ -1,3 +1,4 @@
+//Generated from Unity Shadergraph
 void twirlUv(vec2 uv, vec2 center, float strength, vec2 offset, out vec2 outUv)
 {
     vec2 delta = uv - center;
@@ -7,6 +8,7 @@ void twirlUv(vec2 uv, vec2 center, float strength, vec2 offset, out vec2 outUv)
     outUv = vec2(x + center.x + offset.x, y + center.y + offset.y);
 }
 
+//Generated from Unity Shadergraph
 void spherizeUv(vec2 uv, vec2 center, vec2 strength, vec2 offset, out vec2 outUv)
 {
     vec2 delta = uv - center;
@@ -16,6 +18,7 @@ void spherizeUv(vec2 uv, vec2 center, vec2 strength, vec2 offset, out vec2 outUv
     outUv = uv + delta * delta_offset + offset;
 }
 
+//Generated from Unity Shadergraph
 void shearUv(vec2 uv, vec2 center, vec2 strength, vec2 offset, out vec2 outUv)
 {
     vec2 delta = uv - center;
@@ -74,5 +77,28 @@ void createPseudoVolumePosition(vec2 uv, out float mask, out vec3 position) {
 
     float completeMask = clamp(borderMask * centerMask, 0., 1.);
     mask = completeMask;
+
+}
+
+
+void modify_UV_for_NoiseSamplePosition(vec3 noisePosition, out vec3 noiseSamplePosition) {
+    vec3 noiseSamplePos = noisePosition - 0.5;
+ 
+    vec2 center = vec2(.5, .5);
+    vec2 noiseUv = noisePosition.xy;
+    vec2 noiseUvTwirled;
+    twirlUv(noiseUv, center, cellTwirlStrength, vec2(0., 0.), noiseUvTwirled);
+
+    vec2 noiseUvSpherized;
+    spherizeUv(noiseUvTwirled, center, vec2(cellSpherizeStrength), vec2(0., 0.), noiseUvSpherized);
+
+    vec2 noiseUvSheared;
+    shearUv(noiseUvSpherized, center, vec2(cellRadialShearStrength), vec2(0., 0.), noiseUvSheared);
+
+    noiseSamplePosition = vec3(
+        noiseUvSheared.x,
+        noiseUvSheared.y,
+        noiseSamplePosition.z + depth
+    );
 
 }

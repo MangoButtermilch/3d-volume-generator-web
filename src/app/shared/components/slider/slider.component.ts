@@ -55,6 +55,12 @@ export class SliderComponent implements OnInit {
 
   public onResetSlider(): void {
     this.sliderValue = this.startValue;
+    this.config.value = this.sliderValue;
+    //fixes slider value not changing in html element
+    if (this.sliderElement?.nativeElement) {
+      this.sliderElement.nativeElement.value = this.sliderValue.toString();
+    }
+    this.onValueChange.emit(this.config);
     this.updateProgress();
   }
 

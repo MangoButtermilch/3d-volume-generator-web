@@ -4,9 +4,9 @@ import { Checkbox } from '../../../../shared/components/checkbox/classes/checkbo
 import { Slider } from '../../../../shared/components/slider/classes/slider.class';
 import { SliderComponent } from '../../../../shared/components/slider/slider.component';
 import { UiFactoryService } from '../../../../shared/services/ui-factory.service';
-import { CanvasService } from '../../../services/canvas.service';
+import { CanvasService } from '../../../../shared/services/canvas.service';
 import { Observable } from 'rxjs';
-import { ShaderUvConfig } from '../../../../shared/interfaces/shader-configs.interfaces';
+import { ShaderConfig } from '../../../../shared/interfaces/shader-configs.interfaces';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const factory = UiFactoryService;
@@ -35,7 +35,7 @@ export class MainSettingsComponent implements OnInit {
     factory.instance.buildCheckbox("Grow and shrink cells", "growAndShrinkCells")
   ];
 
-  private shaderUvConfig$: Observable<ShaderUvConfig> = this.canvasService.getShaderUvConfig()
+  private shaderUvConfig$: Observable<ShaderConfig> = this.canvasService.getShaderConfig()
     .pipe(takeUntilDestroyed());
 
   constructor(
@@ -47,7 +47,7 @@ export class MainSettingsComponent implements OnInit {
   }
 
   private handleUvConfigChanges(): void {
-    this.shaderUvConfig$.subscribe((config: ShaderUvConfig) => {
+    this.shaderUvConfig$.subscribe((config: ShaderConfig) => {
       for (const [name, value] of Object.entries(config)) {
 
         const slider = this.getSliderByUniformName(name);
@@ -56,18 +56,18 @@ export class MainSettingsComponent implements OnInit {
         if (slider) {
           slider.value = value;
         } else if (checkbox) {
-          checkbox.checked = value;
+          checkbox.value = value;
         }
       }
     });
   }
 
   public onSliderChange(slider: Slider): void {
-    this.canvasService.updateShaderUvUniform(slider.uniformName, slider.value);
+    this.canvasService.updateShaderUniform(slider.uniformName, slider.value);
   }
 
   public onCheckboxChange(checkbox: Checkbox): void {
-    this.canvasService.updateShaderUvUniform(checkbox.uniformName, checkbox.checked);
+    this.canvasService.updateShaderUniform(checkbox.uniformName, checkbox.value);
   }
 
   private getSliderByUniformName(name: string): Slider | null {

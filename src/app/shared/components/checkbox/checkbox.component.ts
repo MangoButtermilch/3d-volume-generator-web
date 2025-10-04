@@ -19,13 +19,13 @@ export class CheckboxComponent implements OnInit {
   public checked: boolean = false;
 
   ngOnInit(): void {
-    this.checked = this.config.checked;
+    this.checked = this.config.value;
   }
 
   public onCheck(event: Event): void {
     const checked = this.checkmarkElement.nativeElement.checked;
     this.checked = checked;
-    this.config.checked = checked;
+    this.config.value = checked;
     this.onValueChange.emit(this.config);
   }
 }

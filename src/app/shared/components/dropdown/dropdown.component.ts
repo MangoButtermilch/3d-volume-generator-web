@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Dropdown } from './classes/dropdown.class';
 
 @Component({
@@ -9,6 +9,7 @@ import { Dropdown } from './classes/dropdown.class';
 })
 export class DropdownComponent implements OnInit {
 
+  @Output() onValueChange = new EventEmitter<Dropdown>();
   @Input() config: Dropdown;
   @ViewChild("selectElement") selectElement: ElementRef<HTMLSelectElement>;
 
@@ -21,6 +22,8 @@ export class DropdownComponent implements OnInit {
   public onInput(event: Event): void {
     const value = this.selectElement.nativeElement.value;
     this.value = value;
+    this.config.value = value;
+    this.onValueChange.emit(this.config);
   }
 
 }

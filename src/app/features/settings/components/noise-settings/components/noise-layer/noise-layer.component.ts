@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NoiseLayer } from '../../classes/noise-layer.class';
 import { UiFactoryService } from '../../../../../../shared/services/ui-factory.service';
 import { Slider } from '../../../../../../shared/components/slider/classes/slider.class';
 import { Checkbox } from '../../../../../../shared/components/checkbox/classes/checkbox.class';
@@ -7,7 +6,8 @@ import { Dropdown } from '../../../../../../shared/components/dropdown/classes/d
 import { SliderComponent } from "../../../../../../shared/components/slider/slider.component";
 import { DropdownComponent } from "../../../../../../shared/components/dropdown/dropdown.component";
 import { CheckboxComponent } from "../../../../../../shared/components/checkbox/checkbox.component";
-import { NoiseType } from '../../enum/noise-type.enum';
+import { NoiseLayer, NoiseType } from '../../../../../../shared/interfaces/shader-configs.interfaces';
+import { CanvasService } from '../../../../../../shared/services/canvas.service';
 
 @Component({
   selector: 'app-noise-layer',
@@ -30,20 +30,21 @@ export class NoiseLayerComponent implements OnInit {
   public noiseTypeDropdown: Dropdown;
 
   constructor(
-    private uiFactory: UiFactoryService
+    private uiFactory: UiFactoryService,
+    private canvasService: CanvasService
   ) { }
 
   ngOnInit(): void {
 
-    this.scaleSlider = this.uiFactory.buildSlider("Scale", "scale", this.config.scale);
-    this.powerSlider = this.uiFactory.buildSlider("Power", "power", this.config.scale);
-    this.distortionSlider = this.uiFactory.buildSlider("Distortion", "distortion", this.config.scale);
-    this.angleOffsetSlider = this.uiFactory.buildSlider("Angle offset", "angle offset", this.config.scale);
+    this.scaleSlider = this.uiFactory.buildSlider("Scale", "scale", this.config.scale, 0, 10);
+    this.powerSlider = this.uiFactory.buildSlider("Power", "power", this.config.power, 0, 10);
+    this.distortionSlider = this.uiFactory.buildSlider("Distortion", "distortion", this.config.distortion, 0, 100);
+    this.angleOffsetSlider = this.uiFactory.buildSlider("Angle offset", "angleOffset", this.config.angleOffset, 0, 100);
 
     this.noiseTypeDropdown = this.uiFactory.buildDropdown(
       "Noise type",
       "noiseType",
-      NoiseType.PERLIN,
+      this.config.noiseType,
       [
         { label: "Perlin noise", value: NoiseType.PERLIN },
         { label: "Simplex noise", value: NoiseType.SIMPLEX },
@@ -54,6 +55,21 @@ export class NoiseLayerComponent implements OnInit {
 
     this.invertCheckbox = this.uiFactory.buildCheckbox("Inverted", "inverted");
     this.enabledCheckbox = this.uiFactory.buildCheckbox("Enabled", "enabled", true);
+  }
+
+  public onInputChange(input: Slider | Dropdown | Checkbox): void {
+    if (!input || !input.uniformName) {
+      console.warn("Invalid input.");
+      return;
+    }
+
+    if (this.config[input.uniformName] !== undefined) {
+      this.config[input.uniformName] = input.value;
+
+      this.canvasService.onNoiseLayerChange(this.config);
+    } else {
+      console.warn("Uniform not defined in noise layer: " + input.uniformName);
+    }
   }
 
 }
