@@ -2,6 +2,7 @@
     padding: var(--paddingSm);
     overflow-y: auto;
     max-height: 100svh;
+    overflow-x: clip;
     section {
         padding: var(--paddingSm);
         margin: var(--marginSm);

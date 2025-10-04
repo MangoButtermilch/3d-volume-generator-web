@@ -15,7 +15,7 @@
     .main-settings,
     .noise-settings {
         width: fit-content;
-        min-width: 18%;
+        min-width: 50%;
         background-color: #555;
         height: 100%;
     }
@@ -45,12 +45,7 @@
         flex-direction: column;
         overflow-y: auto;
         overflow-x: clip;
-
-        .main-settings,
-        .noise-settings {
-            width: fit-content;
-            min-width: 20%;
-        }
+        width: 28%;
     }
 }
 
