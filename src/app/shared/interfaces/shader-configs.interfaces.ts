@@ -103,7 +103,7 @@ export const defaultNoiseLayerConfig: NoiseLayer[] = [
 export const defaultConfig: ShaderConfig = {
     totalBrightness: 1.,
     depth: 0.,
-    numCells: 8,
+    numCells: 16,
     tilingPerCell: 1.,
     positionOffset: { x: 0, y: 0, z: 0 },
     growAndShrinkCells: false,

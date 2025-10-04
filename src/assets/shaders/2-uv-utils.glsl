@@ -98,7 +98,7 @@ void modify_UV_for_NoiseSamplePosition(vec3 noisePosition, out vec3 noiseSampleP
     noiseSamplePosition = vec3(
         noiseUvSheared.x,
         noiseUvSheared.y,
-        noiseSamplePosition.z + depth
+        noiseSamplePos.z + depth
     );
 
 }

@@ -9,16 +9,9 @@ void main() {
 
     createPseudoVolumePosition(uv, cellMask, noisePosition);
 
-    float AngleOffset = 3.;
-    float CellDensity = 3.;
 
     vec3 noiseSamplePosition;
     modify_UV_for_NoiseSamplePosition(noisePosition, noiseSamplePosition);
-
-    float v = 0.;
-    float c = 0.;
-    Voronoi3D(noiseSamplePosition, AngleOffset, CellDensity, v, c); 
-
     vec4 sampledNoises = vec4(1.);
 
 
