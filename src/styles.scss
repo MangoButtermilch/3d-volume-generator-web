@@ -9,11 +9,13 @@
 
     --transitionSpeed: 100ms;
 
-    --textColor: #cfcccc;
+    --colorWhite: #cfcccc;
+    --textColor: var(--colorWhite);
 
     --colorPrimary: #a249ad;
     --colorPrimaryHover: #b96ac4;
     --colorDanger: #dc3545;
+    --colorDangerHover: #df636f;
 
     --colorSuccess: #28a745;
     --colorSuccessHover: #42b95e;

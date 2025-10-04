@@ -1,16 +1,24 @@
-<div class="settings" [class.loading]="canvasLoading$|async">
-  <div class="main-settings">
-    <section>
-      <h2>Main settings</h2>
-      <app-main-settings></app-main-settings>
-    </section>
-    <section>
-      <h2>Texture settings</h2>
-      <app-texture-settings></app-texture-settings>
+<div class="settings" [class.loading]="canvasLoading$ | async">
+  <app-button
+    class="toggler"
+    [config]="menuOpen ? openButton : closeButton"
+    (onClicked)="menuOpen = !menuOpen"
+  ></app-button>
 
-      <app-button [config]="exportBtn" (onClicked)="onExport()"></app-button>
-    </section>
+  <div class="settings-wrap" [class.open]="menuOpen">
+    <div class="main-settings">
+      <section>
+        <h2>Main settings</h2>
+        <app-main-settings></app-main-settings>
+      </section>
+      <section>
+        <h2>Texture settings</h2>
+        <app-texture-settings></app-texture-settings>
+
+        <app-button [config]="exportBtn" (onClicked)="onExport()"></app-button>
+      </section>
+    </div>
+    <app-noise-settings class="noise-settings"></app-noise-settings>
   </div>
-  <app-noise-settings class="noise-settings"></app-noise-settings>
   <app-canvas></app-canvas>
 </div>

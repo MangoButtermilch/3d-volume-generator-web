@@ -8,6 +8,10 @@
     justify-content: start;
     flex-wrap: nowrap;
 
+    .settings-wrap {
+        display: flex;
+    }
+
     .main-settings,
     .noise-settings {
         width: fit-content;
@@ -28,5 +32,50 @@
         display: block;
         width: 100%;
         height: 100%;
+    }
+}
+
+.toggler {
+    display: none;
+}
+
+@media screen and (max-width: 1430px) {
+    .settings-wrap {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: clip;
+
+        .main-settings,
+        .noise-settings {
+            width: fit-content;
+            min-width: 20%;
+        }
+    }
+}
+
+@media screen and (max-width: 1155px) {
+    .toggler {
+        display: block;
+        position: absolute;
+        z-index: 2;
+    }
+    .settings-wrap {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        width: fit-content;
+        height: 100svh;
+        left: 0;
+        transform: translateX(-100%);
+        transition: transform var(--transitionSpeed) ease-in-out;
+
+        &.open {
+            transform: translateX(0%);
+        }
+        .main-settings,
+        .noise-settings {
+            width: 100%;
+        }
     }
 }

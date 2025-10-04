@@ -23,4 +23,30 @@ button {
             background-color: var(--colorSuccessHover);
         }
     }
+
+    &.btn-menu-mobile {
+        justify-content: center;
+        text-align: center;
+        width: 32px;
+        padding: var(--paddingSm) calc(var(--paddingSm) * 2);
+        transition: all var(--transitionSpeed);
+
+        &.close {
+            background-color: var(--colorPrimary);
+            &:hover {
+                background-color: var(--colorPrimaryHover);
+            }
+        }
+
+        &.open {
+            background-color: var(--colorDanger);
+            &:hover {
+                background-color: var(--colorDangerHover);
+            }
+        }
+
+        span {
+            display: none;
+        }
+    }
 }

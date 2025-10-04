@@ -6,7 +6,7 @@ import { CanvasComponent } from "../../../canvas/canvas.component";
 import { ButtonComponent } from "../../../../shared/components/button/button.component";
 import { Button } from '../../../../shared/components/button/classes/button.class';
 import { UiFactoryService } from '../../../../shared/services/ui-factory.service';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { faB, faBars, faClose, faHamburger, faSave } from '@fortawesome/free-solid-svg-icons';
 import { IconPosition } from '../../../../shared/components/button/enum/button.enum';
 import { CanvasService } from '../../../../shared/services/canvas.service';
 import { Observable } from 'rxjs';
@@ -29,9 +29,12 @@ import { CommonModule } from '@angular/common';
 export class SettingsViewComponent implements OnInit {
 
   public exportBtn: Button;
-
+  public menuOpen: boolean = true;
   public canvasLoading$: Observable<boolean> = this.canvasService.getCanvasLoading()
     .pipe(takeUntilDestroyed());
+
+  public openButton: Button;
+  public closeButton: Button;
 
   constructor(
     private uiFactory: UiFactoryService,
@@ -43,6 +46,17 @@ export class SettingsViewComponent implements OnInit {
       "btn-success",
       faSave,
       IconPosition.LEFT
+    );
+
+    this.openButton = this.uiFactory.buildButton(
+      "",
+      "btn-menu-mobile open",
+      faClose
+    );
+    this.closeButton = this.uiFactory.buildButton(
+      "",
+      "btn-menu-mobile close",
+      faBars
     );
   }
   public onExport(): void {
