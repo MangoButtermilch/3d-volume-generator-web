@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class ShaderLoaderService {
 
   async loadShadersDefault(vertexUrl: string, fragmentUrl: string): Promise<[string, string]> {
     const [vertex, fragment] = await Promise.all([
-      firstValueFrom(this.loadShader(vertexUrl)),
-      firstValueFrom(this.loadShader(fragmentUrl))
+      firstValueFrom(this.loadShader(vertexUrl).pipe(take(1))),
+      firstValueFrom(this.loadShader(fragmentUrl).pipe(take(1)))
     ]);
     return [vertex, fragment];
   }
@@ -26,7 +26,7 @@ export class ShaderLoaderService {
 
     const loadedEntries = await Promise.all(
       entries.map(async ([key, url]) => {
-        const code = await firstValueFrom(this.loadShader(url));
+        const code = await firstValueFrom(this.loadShader(url).pipe(take(1)));
         return [key, code] as [string, string];
       })
     );

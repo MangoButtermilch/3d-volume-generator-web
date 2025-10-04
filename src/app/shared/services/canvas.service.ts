@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as THREE from 'three';
-import { defaultConfig, IVector2, NoiseLayer, NoiseType, ShaderConfig } from '../interfaces/shader-configs.interfaces';
+import { defaultConfig, IVector2, NoiseLayer, ShaderConfig } from '../interfaces/shader-configs.interfaces';
+import { mapIndexToVec4Component, noiseTypeToId, setupShaderUniforms } from '../utils/shader.utils';
 import { ShaderLoaderService } from './shader-loader.service';
-import { noiseTypeToId, mapIndexToVec4Component, setupShaderUniforms } from '../utils/shader.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,11 @@ export class CanvasService {
   constructor(private shaderLoader: ShaderLoaderService) {
     window.addEventListener("resize", this.onResize);
   }
-  
+
+  public onDestroy(): void {
+    this.renderer.dispose();
+  }
+
   public async setup(element: HTMLCanvasElement): Promise<void> {
     this.setCanvasLoading(true);
 

@@ -7,7 +7,7 @@ import { CanvasService } from '../../shared/services/canvas.service';
   templateUrl: './canvas.component.html',
   styleUrl: './canvas.component.scss'
 })
-export class CanvasComponent implements AfterViewInit {
+export class CanvasComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('canvasElement') canvasElement: ElementRef<HTMLCanvasElement>;
 
@@ -17,4 +17,7 @@ export class CanvasComponent implements AfterViewInit {
     this.canvasService.setup(this.canvasElement.nativeElement);
   }
 
+  ngOnDestroy(): void {
+    this.canvasService.onDestroy();
+  }
 }

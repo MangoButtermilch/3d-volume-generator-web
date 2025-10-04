@@ -33,9 +33,7 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/app/shared/worker/export.worker.ts"
-            ],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,8 +92,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            "scripts": []
           }
         }
       }
