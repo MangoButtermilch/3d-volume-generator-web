@@ -49,7 +49,7 @@ void createPseudoVolumePosition(vec2 uv, out float mask, out vec3 position) {
     bool isFirstCell = coords.x <= 1. && coords.y <= 1.;
     bool isLastCell = coords.x >= numCells - 1. && coords.y >= numCells - 1.;
 
-    //To create a padding for stacked noice slices since engines like Unity create weird artifacts on these. 
+    //To create a padding for stacked noise slices since engines like Unity create weird artifacts on these. 
     if (hideFirstCell && isFirstCell)  {
         mask = 0.;
         return;
@@ -59,7 +59,7 @@ void createPseudoVolumePosition(vec2 uv, out float mask, out vec3 position) {
         return;
     }
 
-     //Another padding inside each cell. Also to avoid weird behaviour from Unity.
+    //Another padding inside each cell. Also to avoid weird behaviour from Unity.
     float borderLeftTop = cells.x * cells.y;
     float borderRightBot = (1. - cells.x) * (1. - cells.y);
     float border = borderLeftTop * borderRightBot;

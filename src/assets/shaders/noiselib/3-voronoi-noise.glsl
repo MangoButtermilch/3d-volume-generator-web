@@ -1,3 +1,7 @@
+/*
+* All functions from https://github.com/JimmyCushnie/Noisy-Nodes and translated into GLSL
+*/
+
 vec3 voronoi_noise_randomVector(vec3 UV, float offset) {
     mat3 m = mat3(
         15.27, 47.63, 99.41,

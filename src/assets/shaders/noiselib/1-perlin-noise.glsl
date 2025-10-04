@@ -1,3 +1,6 @@
+/*
+* All functions from https://github.com/JimmyCushnie/Noisy-Nodes and translated into GLSL
+*/
 
 //classic perlin noise
 float cnoise(vec3 P) {
@@ -153,14 +156,3 @@ float pnoise(vec3 P, vec3 rep) {
   float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
   return 2.2 * n_xyz;
 }
-
-/*
-void PerlinNoise3D_float(vec3 input, out float Out) {
-  Out = cnoise(input);
-}
-
-void PerlinNoise3DPeriodic_float(vec3 input, vec3 period, out float Out) {
-  Out = pnoise(input, period);
-}
-
-*/

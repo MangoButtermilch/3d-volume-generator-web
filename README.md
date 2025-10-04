@@ -1,4 +1,20 @@
-# 3dVolumeGeneratorWeb
+# 3D volume generator
+
+Currently a prototype and rework of [this older version](https://acetix.itch.io/pseudo-volume-generator) (made with Unity).
+
+## What is this tool for?
+
+This tool is used to generate pseudo volume textures aka. 3D textures, specifically for volumetric ray marching for clouds and nebula.
+
+
+Here is an example (video):
+[![Volumetric raymarching example](https://img.youtube.com/vi/i6RR4T7nzuU/0.jpg)](https://www.youtube.com/watch?v=i6RR4T7nzuU)
+
+## Contributions
+
+Feel free to create issues or PRs if you have ideas, problems etc.
+
+## Angular setup
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
 

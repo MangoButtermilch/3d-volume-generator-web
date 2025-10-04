@@ -1,3 +1,7 @@
+/*
+* All functions from https://github.com/JimmyCushnie/Noisy-Nodes and translated into GLSL
+*/
+
 float snoise(vec3 v)
 {
     const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);

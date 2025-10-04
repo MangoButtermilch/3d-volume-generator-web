@@ -1,5 +1,6 @@
-#ifndef _INCLUDE_NOISEUTILS_
-#define _INCLUDE_NOISEUTILS_
+/*
+* All functions from https://github.com/JimmyCushnie/Noisy-Nodes and translated into GLSL
+*/
 
 vec4 modVec4(vec4 x, vec4 y) {
     return x - y * floor(x / y);
@@ -120,5 +121,3 @@ vec3 rand1dTo3d(float value) {
         rand1dTo1d(value, 5.7241)
     );
 }
-
-#endif
