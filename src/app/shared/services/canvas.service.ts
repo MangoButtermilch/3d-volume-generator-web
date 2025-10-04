@@ -23,8 +23,12 @@ export class CanvasService {
 
   private outputResolution$ = new BehaviorSubject<IVector2>({ x: 4096, y: 4096 });
 
+  private worker = new Worker(
+    new URL('../worker/export.worker', import.meta.url),
+    { type: 'module' }
+  );
   constructor(private shaderLoader: ShaderLoaderService) {
-    window.addEventListener("resize", this.onResize)
+    window.addEventListener("resize", this.onResize);
   }
 
   public async setup(element: HTMLCanvasElement): Promise<void> {
@@ -303,4 +307,63 @@ export class CanvasService {
   public updateOutputResolution(res: IVector2): void {
     return this.outputResolution$.next(res);
   }
+
+  public exportAsPng(): void {
+    const resolution = this.getOutputResolution();
+    const renderTarget = new THREE.WebGLRenderTarget(resolution.x, resolution.y, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+      format: THREE.RGBAFormat
+    });
+
+    const originalSize = new THREE.Vector2();
+    this.renderer.getSize(originalSize);
+    const originalRenderTarget = this.renderer.getRenderTarget();
+
+    this.renderer.setRenderTarget(renderTarget);
+    this.renderer.setSize(resolution.x, resolution.y);
+    this.material.uniforms['resolution'].value.set(resolution.x, resolution.y);
+    this.renderer.render(this.scene, this.camera);
+
+    const buffer = new Uint8Array(resolution.x * resolution.y * 4);
+    this.renderer.readRenderTargetPixels(renderTarget, 0, 0, resolution.x, resolution.y, buffer);
+
+    const exportCanvas = document.createElement("canvas");
+    exportCanvas.width = resolution.x;
+    exportCanvas.height = resolution.y;
+    const ctx = exportCanvas.getContext("2d");
+
+    const imageData = ctx.createImageData(resolution.x, resolution.y);
+    imageData.data.set(buffer);
+
+    ctx.putImageData(this.flipImageDataY(imageData), 0, 0);
+
+    exportCanvas.toBlob((blob) => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "noise-texture.png";
+      a.click();
+    }, "image/png");
+
+    this.renderer.setRenderTarget(originalRenderTarget);
+    this.renderer.setSize(originalSize.x, originalSize.y);
+    this.material.uniforms['resolution'].value.set(originalSize.x, originalSize.y);
+    renderTarget.dispose();
+    this.render();
+  }
+
+  private flipImageDataY(imageData: ImageData): ImageData {
+    const width = imageData.width;
+    const height = imageData.height;
+    const flipped = new ImageData(width, height);
+
+    for (let y = 0; y < height; y++) {
+      const srcStart = y * width * 4;
+      const destStart = (height - y - 1) * width * 4;
+      flipped.data.set(imageData.data.slice(srcStart, srcStart + width * 4), destStart);
+    }
+
+    return flipped;
+  }
+
 }

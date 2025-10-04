@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Button } from './classes/button.class';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class ButtonComponent {
 
+  @Output() onClicked: EventEmitter<void> = new EventEmitter<void>();
   @Input() config: Button;
 
 }

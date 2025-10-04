@@ -1,4 +1,4 @@
-<button class="{{config.cssClass}}">
+<button class="{{config.cssClass}}" (click)="onClicked.emit()">
 
     @if (config.icon) {
         @if(config.iconPosition === 'left') {

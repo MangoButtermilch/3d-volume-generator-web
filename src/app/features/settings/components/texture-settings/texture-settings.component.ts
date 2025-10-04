@@ -54,6 +54,7 @@ export class TextureSettingsComponent implements OnInit {
     if (typeof value == "string") {
       value = parseInt(value);
     }
+    this.outputResolution.x = value;
     this.canvasService.updateOutputResolution(
       { x: value, y: this.outputResolution.y }
     );
@@ -63,6 +64,7 @@ export class TextureSettingsComponent implements OnInit {
     if (typeof value == "string") {
       value = parseInt(value);
     }
+    this.outputResolution.y = value;
     this.canvasService.updateOutputResolution(
       { x: this.outputResolution.x, y: value }
     );
