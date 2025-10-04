@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
-import { ISlider } from './interfaces/slider.interface';
+import { Slider } from './classes/slider.class';
 import { clamp } from '../../utils/math.utils';
 
 @Component({
@@ -12,29 +12,23 @@ import { clamp } from '../../utils/math.utils';
 })
 export class SliderComponent implements OnInit {
 
-  @Output() onValueChange: EventEmitter<number> = new EventEmitter<number>();
-  @Input() config: ISlider;
+  @Output() onValueChange: EventEmitter<Slider> = new EventEmitter<Slider>();
+  @Input() config: Slider;
   @ViewChild("sliderElement") sliderElement: ElementRef<HTMLInputElement>;
 
   private startValue: number;
-  public sliderValue: number;
   public resetIcon = faXmarkCircle;
   public progressWidth: string = "";
 
   ngOnInit(): void {
-    this.sliderValue = clamp(
-      this.config.value,
-      this.config.minValue,
-      this.config.maxValue
-    );
-    this.startValue = this.sliderValue;
+    this.startValue = this.config.value;
     this.updateProgress();
   }
 
   private updateProgress() {
     const min = this.config.minValue;
     const max = this.config.maxValue;
-    const val = this.sliderValue;
+    const val = this.config.value;
 
     const progressPercent = ((val - min) / (max - min));
     const handleOffset = 12;
@@ -42,22 +36,28 @@ export class SliderComponent implements OnInit {
   }
 
   public onInput(e: Event): void {
-    this.sliderValue = clamp(
+    this.config.value = clamp(
       parseFloat(this.sliderElement.nativeElement.value || "0"),
       this.config.minValue,
       this.config.maxValue
     );
     this.updateProgress();
-    this.onValueChange.emit(this.sliderValue);
+
+    this.onValueChange.emit(this.config);
   }
 
   public onResetSlider(): void {
-    this.sliderValue = this.startValue;
+    this.config.value = this.startValue;
+    //fixes slider value not changing in html element
+    if (this.sliderElement?.nativeElement) {
+      this.sliderElement.nativeElement.value = this.config.value.toString();
+    }
+    this.onValueChange.emit(this.config);
     this.updateProgress();
   }
 
   public getSliderValue(): number {
-    return this.sliderValue;
+    return this.config.value;
   }
 
   public get width(): string {

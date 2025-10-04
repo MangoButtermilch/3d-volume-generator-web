@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { IDropdown } from './interfaces/dropdown.interface';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Dropdown } from './classes/dropdown.class';
 
 @Component({
   selector: 'app-dropdown',
@@ -9,7 +9,8 @@ import { IDropdown } from './interfaces/dropdown.interface';
 })
 export class DropdownComponent implements OnInit {
 
-  @Input() config: IDropdown;
+  @Output() onValueChange = new EventEmitter<Dropdown>();
+  @Input() config: Dropdown;
   @ViewChild("selectElement") selectElement: ElementRef<HTMLSelectElement>;
 
   public value: string | number;
@@ -21,6 +22,8 @@ export class DropdownComponent implements OnInit {
   public onInput(event: Event): void {
     const value = this.selectElement.nativeElement.value;
     this.value = value;
+    this.config.value = value;
+    this.onValueChange.emit(this.config);
   }
 
 }

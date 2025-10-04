@@ -7,7 +7,39 @@
     --paddingSm: 5px;
     --marginSm: 5px;
 
-    --transitionSpeed: 50ms;
+    --transitionSpeed: 100ms;
+
+    --colorWhite: #cfcccc;
+    --textColor: var(--colorWhite);
+
+    --colorPrimary: #a249ad;
+    --colorPrimaryHover: #b96ac4;
+    --colorDanger: #dc3545;
+    --colorDangerHover: #df636f;
+
+    --colorSuccess: #28a745;
+    --colorSuccessHover: #42b95e;
+
+    --colorUi: #666;
+    --colorUiBackground: #333;
+    --colorUiHover: #888;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--colorUiBackground);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--colorPrimary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--colorPrimaryHover);
+    cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -19,12 +51,15 @@
 * {
     box-sizing: border-box;
 }
-
 body {
     padding: 0;
     margin: 0;
-    font-family: "Arial";
+    font-family: "Consolas";
     font-size: var(--fontSizeMd);
+    height: 100svh;
+    background-color: #111;
+    color: var(--textColor);
+    overflow: clip;
 }
 input {
     margin: 0;
@@ -40,4 +75,42 @@ app-dropdown {
     display: block;
     width: fit-content;
     height: fit-content;
+}
+
+app-settings-main,
+app-settings-texture,
+app-noise-layer-list,
+app-canvas,
+app-main {
+    display: block;
+}
+
+app-main {
+    height: 100%;
+}
+
+.visually-hidden {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%) translateY(-100%);
+}
+
+.version-hint {
+    position: absolute;
+    z-index: 1;
+    top: var(--paddingSm);
+    right: var(--paddingSm);
+    color: var(--colorPrimary);
+}
+
+.source-code-hint {
+    position: absolute;
+    z-index: 1;
+    right: var(--paddingSm);
+    bottom: var(--paddingSm);
+    color: var(--colorPrimary);
+    &:hover {
+        color: var(--textColor);
+    }
 }

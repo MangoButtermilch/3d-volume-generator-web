@@ -1,11 +1,11 @@
 .slider-wrap {
-    --resetColor: #dc143c;
+    --resetColor: var(--colorDanger);
     --resetColorHover: #ec4b6b;
 
     --sliderColorBackground: #333;
-    --sliderColorProgress: #a249ad;
-    --sliderHandleColor: #666;
-    --sliderHandleColorHover: #888;
+    --sliderColorProgress: var(--colorPrimary);
+    --sliderHandleColor: var(--colorUi);
+    --sliderHandleColorHover: var(--colorUiHover);
 
     display: flex;
     align-items: center;
@@ -17,7 +17,7 @@
         border: none;
         outline: none;
         background-color: transparent;
-        font-size: var(--fontSizeMd);
+        font-size: var(--fontSize);
         color: var(--resetColor);
         transition: color ease-in-out var(--transitionSpeed);
         &:hover {
@@ -31,8 +31,7 @@
         background-color: var(--sliderColorBackground);
         height: 5px;
         border-radius: 10px;
-
-        &::-webkit-slider-thumb {
+       &::-webkit-slider-thumb {
             appearance: none;
             background-color: var(--sliderHandleColor);
             width: 15px;
@@ -41,7 +40,7 @@
             transition: background-color ease-in-out var(--transitionSpeed);
             &:hover {
                 background-color: var(--sliderHandleColorHover);
-            }
+            } 
         }
         &:hover {
             cursor: pointer;

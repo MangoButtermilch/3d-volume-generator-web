@@ -1,0 +1,9 @@
+@for (slider of sliders; track $index) {
+<app-slider [config]="slider" (onValueChange)="onSliderChange($event)"></app-slider>
+}
+
+<h3>Texture resolution (max: {{ maxTextureSize }})</h3>
+<div class="texture-wrap">
+  <app-input [config]="inputTextureSizeX" (onValueChange)="updateOutputResolutionX($event)"></app-input>
+  <app-input [config]="inputTextureSizeY" (onValueChange)="updateOutputResolutionY($event)"></app-input>
+</div>

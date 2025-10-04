@@ -19,7 +19,10 @@
     "@angular/router": "^19.2.0",
     "@fortawesome/angular-fontawesome": "^1.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.1",
+    "@types/three": "^0.180.0",
+    "guid-typescript": "^1.0.9",
     "rxjs": "~7.8.0",
+    "three": "^0.180.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
