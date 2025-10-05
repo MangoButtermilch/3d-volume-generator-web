@@ -15,7 +15,7 @@
     .main-settings,
     .noise-settings {
         width: fit-content;
-        min-width: 50%;
+        width: 280px;
         background-color: #555;
         height: 100%;
     }
@@ -40,22 +40,16 @@
 }
 
 @media screen and (max-width: 1430px) {
-    .settings-wrap {
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        overflow-x: clip;
-        width: 28%;
-    }
-}
-
-@media screen and (max-width: 1155px) {
     .toggler {
         display: block;
         position: absolute;
         z-index: 2;
     }
     .settings-wrap {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: clip;
         position: absolute;
         top: 0;
         z-index: 1;
