@@ -78,10 +78,12 @@ export class CanvasService {
         noiseLayers: "/assets/shaders/noiselib/5-noise-layers.glsl",
       }
     );
-    const shaderSetupFiles = await this.shaderLoader.loadShaders(
+    const shaderFiles = await this.shaderLoader.loadShaders(
       {
         uniforms: "/assets/shaders/1-uniforms.glsl",
         uvUtils: "/assets/shaders/2-uv-utils.glsl",
+        fragment: "/assets/shaders/3-fragment.glsl",
+        vertex: "/assets/shaders/4-vertex.glsl",
       }
     );
 
@@ -92,16 +94,13 @@ export class CanvasService {
         .concat(noiseLibFiles['voronoi3d'])
         .concat(noiseLibFiles['nebula3d'])
         .concat(noiseLibFiles['noiseLayers'])
-        .concat(shaderSetupFiles['uniforms'])
-        .concat(shaderSetupFiles['uvUtils'])
+        .concat(shaderFiles['uniforms'])
+        .concat(shaderFiles['uvUtils'])
+        .concat(shaderFiles['fragment']);
 
-    const [fragment, vertex] = await this.shaderLoader.loadShadersDefault(
-      "/assets/shaders/3-fragment.glsl",
-      "/assets/shaders/4-vertex.glsl",
-    );
     this.material = new THREE.ShaderMaterial({
-      vertexShader: vertex,
-      fragmentShader: shaderSetupFragment + fragment,
+      vertexShader: shaderFiles['vertex'],
+      fragmentShader: shaderSetupFragment
     });
     setupShaderUniforms(this.resolution, this.material, this.config);
   }

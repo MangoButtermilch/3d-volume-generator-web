@@ -13,15 +13,7 @@ export class ShaderLoaderService {
     return this.http.get(url, { responseType: 'text' });
   }
 
-  async loadShadersDefault(vertexUrl: string, fragmentUrl: string): Promise<[string, string]> {
-    const [vertex, fragment] = await Promise.all([
-      firstValueFrom(this.loadShader(vertexUrl).pipe(take(1))),
-      firstValueFrom(this.loadShader(fragmentUrl).pipe(take(1)))
-    ]);
-    return [vertex, fragment];
-  }
-
-  async loadShaders(shaderMap: Record<string, string>): Promise<Record<string, string>> {
+  public async loadShaders(shaderMap: Record<string, string>): Promise<Record<string, string>> {
     const entries = Object.entries(shaderMap);
 
     const loadedEntries = await Promise.all(
