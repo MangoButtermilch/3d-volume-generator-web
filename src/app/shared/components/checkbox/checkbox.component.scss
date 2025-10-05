@@ -9,6 +9,7 @@ label {
 
     --checkSize: 15px;
 
+    filter: var(--dropShadow);
     display: flex;
     flex-wrap: nowrap;
     align-items: center;

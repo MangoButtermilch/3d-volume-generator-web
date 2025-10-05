@@ -8,6 +8,8 @@ button {
     font-weight: bold;
     display: inline-flex;
     align-items: center;
+    filter: var(--dropShadow);
+
     .label {
         margin: 0 var(--marginSm);
     }

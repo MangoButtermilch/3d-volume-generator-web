@@ -12,7 +12,7 @@
     --colorWhite: #cfcccc;
     --textColor: var(--colorWhite);
 
-    --colorPrimary: #a249ad;
+    --colorPrimary: #845ec2;
     --colorPrimaryHover: #b96ac4;
     --colorDanger: #dc3545;
     --colorDangerHover: #df636f;
@@ -23,6 +23,8 @@
     --colorUi: #666;
     --colorUiBackground: #333;
     --colorUiHover: #888;
+
+    --dropShadow: drop-shadow(0px 1px 1px #222);
 }
 
 ::-webkit-scrollbar {
