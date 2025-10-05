@@ -2,6 +2,8 @@
 
 Currently a prototype and rework of [this older version](https://acetix.itch.io/pseudo-volume-generator) (made with Unity).
 
+## Try the [Live version](https://pseudo-volume-generator.buttermilch-dev.de)
+
 ## What is this tool for?
 
 This tool is used to generate pseudo volume textures aka. 3D textures, specifically for volumetric ray marching for clouds and nebula.
