@@ -3,6 +3,7 @@
     --selectColorHover: #888;
     --selectColorChecked: #a249ad;
 
+    filter: var(--dropShadow);
     display: flex;
     flex-direction: column;
     width: 200px;

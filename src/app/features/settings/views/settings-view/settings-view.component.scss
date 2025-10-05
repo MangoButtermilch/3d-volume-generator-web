@@ -16,8 +16,8 @@
     .noise-settings {
         width: fit-content;
         width: 280px;
-        background-color: #555;
         height: 100%;
+        background-color: #555;
     }
 
     .noise-settings {
@@ -32,6 +32,10 @@
         display: block;
         width: 100%;
         height: 100%;
+    }
+    .export-btn {
+        display: block;
+        margin-top: var(--marginSm);
     }
 }
 

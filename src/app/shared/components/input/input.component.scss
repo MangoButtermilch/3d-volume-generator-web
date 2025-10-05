@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     padding: var(--paddingSm);
+    filter: var(--dropShadow);
     label {
         margin-right: var(--marginSm);
     }

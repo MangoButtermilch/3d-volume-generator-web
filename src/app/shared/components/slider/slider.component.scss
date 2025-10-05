@@ -1,6 +1,6 @@
 .slider-wrap {
     --resetColor: var(--colorDanger);
-    --resetColorHover: #ec4b6b;
+    --resetColorHover: var(--colorDangerHover);
 
     --sliderColorBackground: #333;
     --sliderColorProgress: var(--colorPrimary);
@@ -12,6 +12,7 @@
     flex-wrap: nowrap;
     position: relative;
     width: fit-content;
+    filter: var(--dropShadow);
 
     .slider-reset {
         border: none;
