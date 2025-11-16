@@ -3,6 +3,13 @@
   width: auto;
   height: 100%;
   max-height: 600px;
+
+  app-button {
+    position: absolute;
+    z-index: 1;
+    left: var(--marginSm);
+    top: var(--marginSm);
+  }
 }
 
 canvas {

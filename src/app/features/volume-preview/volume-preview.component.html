@@ -1,3 +1,7 @@
 <div class="canvas-wrapper">
   <canvas #previewElement></canvas>
+  <app-button
+    [config]="resetCameraBtn"
+    (onClicked)="onResetCamera()"
+  ></app-button>
 </div>

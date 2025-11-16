@@ -28,6 +28,9 @@ export class VolumePreviewService {
   private onInit$: Subject<HTMLCanvasElement> = new Subject<HTMLCanvasElement>();
   private initialized: boolean = false;
 
+  private initialCameraPosition = new THREE.Vector3();
+  private initialCameraTarget = new THREE.Vector3();
+
   constructor(private shaderLoader: ShaderLoaderService) {
     this.handleOnInit();
   }
@@ -78,6 +81,9 @@ export class VolumePreviewService {
     const quad = new THREE.Mesh(geometry, this.material);
 
     this.scene.add(quad);
+
+    this.initialCameraPosition.copy(this.camera.position);
+    this.initialCameraTarget.copy(this.orbitControls.target);
 
     this.setCanvasLoading(false);
     this.startRenderLoop();
@@ -141,4 +147,13 @@ export class VolumePreviewService {
   public pauseRendering(): void {
     this.doRender = false;
   }
+
+  public resetCamera(): void {
+    this.camera.position.copy(this.initialCameraPosition);
+    this.camera.lookAt(this.initialCameraTarget);
+
+    this.orbitControls.target.copy(this.initialCameraTarget);
+    this.orbitControls.update();
+  }
+
 }
