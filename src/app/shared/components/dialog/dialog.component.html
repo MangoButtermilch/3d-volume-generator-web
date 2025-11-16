@@ -1,0 +1,9 @@
+<dialog #dialog class="size-{{size.toString()}}">
+  <div class="action-bar">
+    <span class="label">{{label}}</span>
+    <app-button [config]="closeButton" (onClicked)="onCloseBtn()"></app-button>
+  </div>
+  <div class="dialog-content">
+    <ng-content></ng-content>
+  </div>
+</dialog>

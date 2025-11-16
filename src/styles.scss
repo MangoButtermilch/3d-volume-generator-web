@@ -82,6 +82,18 @@ app-dropdown {
     height: fit-content;
 }
 
+app-dialog {
+    display: block;
+    inset: 0;
+    position: fixed;
+    margin: auto;
+    z-index: 1;
+    pointer-events: none;
+    dialog {
+        pointer-events: all;
+    }
+}
+
 app-settings-main,
 app-settings-texture,
 app-noise-layer-list,
