@@ -10,6 +10,13 @@
     left: var(--marginSm);
     top: var(--marginSm);
   }
+  .settings {
+    position: absolute;
+    z-index: 1;
+    left: var(--marginSm);
+    top: calc(var(--marginSm) * 10);
+    color: var(--textColor);
+  }
 }
 
 canvas {

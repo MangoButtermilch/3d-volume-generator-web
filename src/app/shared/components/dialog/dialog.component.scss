@@ -4,6 +4,7 @@ dialog {
     border: none;
     outline: none;
     min-width: 320px;
+    overflow: clip;
 
     &.size-small {
         width: 30vw;

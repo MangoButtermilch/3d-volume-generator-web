@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription, take } from 'rxjs';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { IVector2 } from '../interfaces/shader-configs.interfaces';
 import { ShaderLoaderService } from './shader-loader.service';
+import { CanvasService } from './canvas.service';
+import { IUniform } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +33,29 @@ export class VolumePreviewService {
   private initialCameraPosition = new THREE.Vector3();
   private initialCameraTarget = new THREE.Vector3();
 
-  constructor(private shaderLoader: ShaderLoaderService) {
+  private shaderUniformSubscr: Subscription = null;
+  private shaderUniforms$: Observable<{ [uniform: string]: IUniform<any>; }> = this.canvasService.getShaderUniforms();
+  private shaderUniforms: { [uniform: string]: IUniform<any>; } = null;
+  private quad: THREE.Mesh = null;
+
+  constructor(
+    private canvasService: CanvasService,
+    private shaderLoader: ShaderLoaderService) {
+    this.handleShaderUniforms();
     this.handleOnInit();
+  }
+
+  private handleShaderUniforms(): void {
+    this.shaderUniformSubscr = this.shaderUniforms$.subscribe((uniforms) => {
+      this.shaderUniforms = uniforms;
+
+      if (this.material) {
+
+        for (const [key, value] of Object.entries(this.shaderUniforms)) {
+          this.material.uniforms[key].value = this.shaderUniforms[key].value;
+        }
+      }
+    });
   }
 
   public startInit(element: HTMLCanvasElement): void {
@@ -51,6 +74,7 @@ export class VolumePreviewService {
 
   public onDestroy(): void {
     this.renderer.dispose();
+    this.shaderUniformSubscr.unsubscribe();
   }
 
   private async setup(element: HTMLCanvasElement): Promise<void> {
@@ -64,7 +88,7 @@ export class VolumePreviewService {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(50, bounds.width / bounds.height, 0.1, 100);  // aspect=1
-    this.camera.position.set(0, 0, 3);
+    this.camera.position.set(0, 0, 2);
     this.camera.updateProjectionMatrix();
 
     this.orbitControls = new OrbitControls(this.camera, this.canvas);
@@ -72,14 +96,14 @@ export class VolumePreviewService {
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
-      alpha: false
+      alpha: true
     });
     this.renderer.setSize(bounds.width, bounds.height);
 
     await this.loadShaderAndMaterialConfiguration();
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.PlaneGeometry(2, 2);
     const quad = new THREE.Mesh(geometry, this.material);
-
+    this.quad = quad;
     this.scene.add(quad);
 
     this.initialCameraPosition.copy(this.camera.position);
@@ -90,16 +114,49 @@ export class VolumePreviewService {
   }
 
   private async loadShaderAndMaterialConfiguration(): Promise<void> {
+    const noiseLibFiles = await this.shaderLoader.loadShaders(
+      {
+        noiseUtils: "/assets/shaders/noiselib/0-noise-utils.glsl",
+        perlinNoise3d: "/assets/shaders/noiselib/1-perlin-noise.glsl",
+        simplexNoise3d: "/assets/shaders/noiselib/2-simplex-noise.glsl",
+        voronoi3d: "/assets/shaders/noiselib/3-voronoi-noise.glsl",
+        nebula3d: "/assets/shaders/noiselib/4-nebula-noise.glsl",
+        noiseLayers: "/assets/shaders/noiselib/5-noise-layers.glsl",
+      }
+    );
     const shaderFiles = await this.shaderLoader.loadShaders(
       {
+        uniforms: "/assets/shaders/1-uniforms.glsl",
+        uvUtils: "/assets/shaders/2-uv-utils.glsl",
         fragment: "/assets/shaders/volume-preview/fragment.glsl",
         vertex: "/assets/shaders/volume-preview/vertex.glsl",
       }
     );
 
-    const shaderSetupFragment = shaderFiles['fragment'];
+    const shaderSetupFragment =
+      noiseLibFiles['noiseUtils']
+        .concat(noiseLibFiles['perlinNoise3d'])
+        .concat(noiseLibFiles['simplexNoise3d'])
+        .concat(noiseLibFiles['voronoi3d'])
+        .concat(noiseLibFiles['nebula3d'])
+        .concat(noiseLibFiles['noiseLayers'])
+        .concat(shaderFiles['uniforms'])
+        .concat(shaderFiles['uvUtils'])
+        .concat(shaderFiles['fragment']);
 
     this.material = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      depthTest: false,
+      side: THREE.DoubleSide,
+      blending: THREE.NormalBlending,
+      uniforms: {
+        ...this.shaderUniforms,
+        densityMult: { value: 1.0 },
+        stepSize: { value: 0.01 },
+        maxSteps: { value: 70 },
+        cameraPos: { value: this.camera.position }
+      },
       vertexShader: shaderFiles['vertex'],
       fragmentShader: shaderSetupFragment
     });
@@ -122,6 +179,7 @@ export class VolumePreviewService {
     if (delta >= minFrameTime && this.doRender) {
       this.lastFrameTime = time;
       this.orbitControls.update();
+      this.material.uniformsNeedUpdate = true;
       this.renderer.render(this.scene, this.camera);
     }
 
@@ -156,4 +214,12 @@ export class VolumePreviewService {
     this.orbitControls.update();
   }
 
+  public updateShaderUniform(uniformName: string, value: any): void {
+    if (this.material.uniforms[uniformName]) {
+      this.material.uniforms[uniformName].value = value;
+      this.material.uniformsNeedUpdate = true;
+    } else {
+      console.warn("Unknown uniform: " + uniformName);
+    }
+  }
 }
