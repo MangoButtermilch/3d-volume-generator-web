@@ -12,6 +12,9 @@ import { CanvasService } from '../../../../shared/services/canvas.service';
 import { Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
+import { VolumePreviewComponent } from "../../../volume-preview/volume-preview.component";
+import { DialogComponent } from '../../../../shared/components/dialog/dialog.component';
+import { DialogSize } from '../../../../shared/components/dialog/enum/dialog-size.enum';
 
 @Component({
   selector: 'app-settings-view',
@@ -21,12 +24,16 @@ import { CommonModule } from '@angular/common';
     TextureSettingsComponent,
     NoiseSettingsComponent,
     CanvasComponent,
-    ButtonComponent
+    ButtonComponent,
+    DialogComponent,
+    VolumePreviewComponent
   ],
   templateUrl: './settings-view.component.html',
   styleUrl: './settings-view.component.scss'
 })
 export class SettingsViewComponent implements OnInit {
+
+  DialogSize = DialogSize;
 
   public previewBtn: Button;
   public exportBtn: Button;
@@ -36,6 +43,8 @@ export class SettingsViewComponent implements OnInit {
 
   public openButton: Button;
   public closeButton: Button;
+
+  public previewOpen: boolean = false;
 
   constructor(
     private uiFactory: UiFactoryService,
@@ -72,6 +81,6 @@ export class SettingsViewComponent implements OnInit {
   }
 
   public onPreview(): void {
-
+    this.previewOpen = true;
   }
 }

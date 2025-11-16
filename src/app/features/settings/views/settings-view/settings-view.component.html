@@ -16,8 +16,16 @@
         <app-texture-settings></app-texture-settings>
 
         <div class="btn-wrap">
-          <app-button class="export-btn" [config]="exportBtn" (onClicked)="onExport()"></app-button>
-          <app-button class="preview-btn" [config]="previewBtn" (onClicked)="onPreview()"></app-button>
+          <app-button
+            class="export-btn"
+            [config]="exportBtn"
+            (onClicked)="onExport()"
+          ></app-button>
+          <app-button
+            class="preview-btn"
+            [config]="previewBtn"
+            (onClicked)="onPreview()"
+          ></app-button>
         </div>
       </section>
     </div>
@@ -25,3 +33,12 @@
   </div>
   <app-canvas></app-canvas>
 </div>
+
+<app-dialog
+  [open]="previewOpen"
+  [label]="'Preview'"
+  [size]="DialogSize.LARGE"
+  (onClosed)="previewOpen = false"
+>
+  <app-volume-preview></app-volume-preview>
+</app-dialog>
