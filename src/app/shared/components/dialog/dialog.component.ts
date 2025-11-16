@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { UiFactoryService } from '../../services/ui-factory.service';
 import { Button } from '../button/classes/button.class';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -22,6 +22,17 @@ export class DialogComponent implements OnInit, AfterViewInit {
   @Output() onClosed: EventEmitter<void> = new EventEmitter<void>();
 
   public closeButton: Button = null;
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: any) {
+    const rect = this.dialogRef.nativeElement.getBoundingClientRect();
+    const isInDialog = (rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+      rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+
+    if (!isInDialog && this.open) {
+      this.onCloseBtn();
+    }
+  }
 
   constructor(private uiFactory: UiFactoryService) { }
 
