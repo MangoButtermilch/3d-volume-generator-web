@@ -35,6 +35,7 @@ export class CanvasService {
   }
 
   public async setup(element: HTMLCanvasElement): Promise<void> {
+    console.log(element)
     this.setCanvasLoading(true);
 
     this.canvas = element;
