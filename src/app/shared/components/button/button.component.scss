@@ -26,6 +26,13 @@ button {
         }
     }
 
+    &.btn-info {
+        background-color: var(--colorInfo);
+        &:hover {
+            background-color: var(--colorInfoHover);
+        }
+    }
+
     &.btn-menu-mobile {
         justify-content: center;
         text-align: center;

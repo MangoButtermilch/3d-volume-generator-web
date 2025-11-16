@@ -33,9 +33,16 @@
         width: 100%;
         height: 100%;
     }
-    .export-btn {
-        display: block;
+    .btn-wrap {
+        display: flex;
         margin-top: var(--marginSm);
+        .export-btn,
+        .preview-btn {
+            display: block;
+        }
+        .export-btn {
+            margin-right: calc(var(--marginSm) * 2);
+        }
     }
 }
 
