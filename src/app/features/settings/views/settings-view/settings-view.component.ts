@@ -6,12 +6,15 @@ import { CanvasComponent } from "../../../canvas/canvas.component";
 import { ButtonComponent } from "../../../../shared/components/button/button.component";
 import { Button } from '../../../../shared/components/button/classes/button.class';
 import { UiFactoryService } from '../../../../shared/services/ui-factory.service';
-import { faB, faBars, faClose, faHamburger, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faB, faBars, faClose, faEye, faHamburger, faSave } from '@fortawesome/free-solid-svg-icons';
 import { IconPosition } from '../../../../shared/components/button/enum/button.enum';
 import { CanvasService } from '../../../../shared/services/canvas.service';
 import { Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
+import { VolumePreviewComponent } from "../../../volume-preview/volume-preview.component";
+import { DialogComponent } from '../../../../shared/components/dialog/dialog.component';
+import { DialogSize } from '../../../../shared/components/dialog/enum/dialog-size.enum';
 
 @Component({
   selector: 'app-settings-view',
@@ -21,13 +24,18 @@ import { CommonModule } from '@angular/common';
     TextureSettingsComponent,
     NoiseSettingsComponent,
     CanvasComponent,
-    ButtonComponent
+    ButtonComponent,
+    DialogComponent,
+    VolumePreviewComponent
   ],
   templateUrl: './settings-view.component.html',
   styleUrl: './settings-view.component.scss'
 })
 export class SettingsViewComponent implements OnInit {
 
+  DialogSize = DialogSize;
+
+  public previewBtn: Button;
   public exportBtn: Button;
   public menuOpen: boolean = true;
   public canvasLoading$: Observable<boolean> = this.canvasService.getCanvasLoading()
@@ -36,11 +44,19 @@ export class SettingsViewComponent implements OnInit {
   public openButton: Button;
   public closeButton: Button;
 
+  public previewOpen: boolean = false;
+
   constructor(
     private uiFactory: UiFactoryService,
     private canvasService: CanvasService) { }
 
   ngOnInit(): void {
+    this.previewBtn = this.uiFactory.buildButton(
+      "Show preview",
+      "btn-info",
+      faEye,
+      IconPosition.LEFT
+    );
     this.exportBtn = this.uiFactory.buildButton(
       "Save PNG",
       "btn-success",
@@ -59,7 +75,12 @@ export class SettingsViewComponent implements OnInit {
       faBars
     );
   }
+
   public onExport(): void {
     this.canvasService.exportAsPng();
+  }
+
+  public onPreview(): void {
+    this.previewOpen = true;
   }
 }

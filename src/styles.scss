@@ -20,6 +20,9 @@
     --colorSuccess: #28a745;
     --colorSuccessHover: #42b95e;
 
+    --colorInfo: #285fa7;
+    --colorInfoHover: #4276b9;
+
     --colorUi: #666;
     --colorUiBackground: #333;
     --colorUiHover: #888;
@@ -77,6 +80,18 @@ app-dropdown {
     display: block;
     width: fit-content;
     height: fit-content;
+}
+
+app-dialog {
+    display: block;
+    inset: 0;
+    position: fixed;
+    margin: auto;
+    z-index: 1;
+    pointer-events: none;
+    dialog {
+        pointer-events: all;
+    }
 }
 
 app-settings-main,

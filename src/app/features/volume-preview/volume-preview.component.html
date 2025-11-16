@@ -1,0 +1,21 @@
+<div class="canvas-wrapper">
+  <canvas #previewElement></canvas>
+  <app-button
+    [config]="resetCameraBtn"
+    (onClicked)="onResetCamera()"
+  ></app-button>
+  <div class="settings">
+    <app-slider
+      [config]="densityMult"
+      (onValueChange)="onUniformChange($event)"
+    ></app-slider>
+    <app-slider
+      [config]="maxSteps"
+      (onValueChange)="onUniformChange($event)"
+    ></app-slider>
+    <app-slider
+      [config]="stepSize"
+      (onValueChange)="onUniformChange($event)"
+    ></app-slider>
+  </div>
+</div>

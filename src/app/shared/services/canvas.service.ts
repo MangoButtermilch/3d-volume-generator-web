@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import * as THREE from 'three';
 import { defaultConfig, IVector2, NoiseLayer, ShaderConfig } from '../interfaces/shader-configs.interfaces';
 import { mapIndexToVec4Component, noiseTypeToId, setupShaderUniforms } from '../utils/shader.utils';
 import { ShaderLoaderService } from './shader-loader.service';
+import { IUniform } from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +27,18 @@ export class CanvasService {
   private renderPending: boolean = false;
   private canvasLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
+  private shaderUniforms$ = new ReplaySubject<{ [uniform: string]: IUniform<any>; }>();
+
   constructor(private shaderLoader: ShaderLoaderService) {
     window.addEventListener("resize", this.onResize);
   }
 
   public onDestroy(): void {
     this.renderer.dispose();
+  }
+
+  public getShaderUniforms(): Observable<{ [uniform: string]: IUniform<any>; }> {
+    return this.shaderUniforms$.asObservable();
   }
 
   public async setup(element: HTMLCanvasElement): Promise<void> {
@@ -103,6 +110,7 @@ export class CanvasService {
       fragmentShader: shaderSetupFragment
     });
     setupShaderUniforms(this.resolution, this.material, this.config);
+    this.shaderUniforms$.next(this.material.uniforms);
   }
 
   private onResize = (): void => {
@@ -170,6 +178,8 @@ export class CanvasService {
   }
 
   private scheduleRender(): void {
+    this.shaderUniforms$.next(this.material.uniforms);
+
     if (!this.renderPending) {
       this.renderPending = true;
       requestAnimationFrame(() => {

@@ -1,0 +1,42 @@
+dialog {
+    padding: 0;
+    background-color: var(--colorUiBackground);
+    border: none;
+    outline: none;
+    min-width: 320px;
+    overflow: clip;
+
+    &.size-small {
+        width: 30vw;
+        height: fit-content;
+    }
+    
+    &.size-medium {
+        width: 50vw;
+        height: fit-content;
+    }
+
+    &.size-large {
+        width: 75vw;
+        height: fit-content;
+    }
+
+    .action-bar {
+        padding: var(--paddingSm);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: calc(var(--marginSm) * 2);
+        background-color: var(--colorUi);
+        color: white;
+    }
+
+    .dialog-content {
+        padding: var(--paddingSm);
+    }
+
+    &::backdrop {
+        background-color: #333;
+        opacity: 0.5;
+    }
+}

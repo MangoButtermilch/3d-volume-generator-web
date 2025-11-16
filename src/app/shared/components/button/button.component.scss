@@ -26,6 +26,20 @@ button {
         }
     }
 
+    &.btn-danger {
+        background-color: var(--colorDanger);
+        &:hover {
+            background-color: var(--colorDangerHover);
+        }
+    }
+
+    &.btn-info {
+        background-color: var(--colorInfo);
+        &:hover {
+            background-color: var(--colorInfoHover);
+        }
+    }
+
     &.btn-menu-mobile {
         justify-content: center;
         text-align: center;
