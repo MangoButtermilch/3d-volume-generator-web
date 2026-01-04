@@ -13,6 +13,14 @@ Here is an example (video):
 
 [![Volumetric raymarching example](https://img.youtube.com/vi/i6RR4T7nzuU/0.jpg)](https://www.youtube.com/watch?v=i6RR4T7nzuU)
 
+### Basically it generates textures like these:
+
+![Volume preview](https://github.com/MangoButtermilch/3d-volume-generator-web/tree/main/screenshots/texture_example.png)
+
+### To produce such volumes:
+
+![Texture example](https://github.com/MangoButtermilch/3d-volume-generator-web/tree/main/screenshots/volume_preview.png)
+
 ## Contributions
 
 Feel free to create issues or PRs if you have ideas, problems etc.
