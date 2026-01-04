@@ -13,6 +13,12 @@ Here is an example (video):
 
 [![Volumetric raymarching example](https://img.youtube.com/vi/i6RR4T7nzuU/0.jpg)](https://www.youtube.com/watch?v=i6RR4T7nzuU)
 
+
+Generates these textures           |  For rendering volumes
+:-------------------------:|:-------------------------:
+![](/screenshots/texture_example.png)  |  ![](/screenshots/volume_preview.png)
+
+
 ## Contributions
 
 Feel free to create issues or PRs if you have ideas, problems etc.
